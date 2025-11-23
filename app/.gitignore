@@ -44,3 +44,9 @@ google-services.json
 # OS-specific files
 .DS_Store
 Thumbs.db
+
+# Android build files
+/build/
+/android/app/build/
+/android/.gradle/
+/android/captures/
