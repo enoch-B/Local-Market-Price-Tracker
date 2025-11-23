@@ -13,3 +13,11 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Android build files
+/build/
+/android/app/build/
+/android/.gradle/
+/android/captures/
+java_pid5452.hprof
+.hprof
