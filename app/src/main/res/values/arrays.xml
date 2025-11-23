@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="default_currencies">
+        <item>USD</item>
+        <item>EUR</item>
+        <item>LOCAL</item>
+    </string-array>
+
+    <string-array name="languages">
+        <item>English</item>
+        <item>Amharic</item>
+        <item>French</item>
+    </string-array>
+
+    <string-array name="market_regions">
+        <item>North</item>
+        <item>South</item>
+        <item>East</item>
+        <item>West</item>
+    </string-array>
+
+</resources>

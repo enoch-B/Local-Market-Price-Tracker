@@ -1,0 +1,46 @@
+gitignore
+# Built application files
+*.apk
+*.aab
+*.ap_
+
+# Files for the ART/Dalvik VM
+*.dex
+
+# Java class files
+*.class
+
+# Build folders
+/build
+/app/build
+
+# Gradle files
+.gradle/
+local.properties
+
+# Log Files
+*.log
+
+# Android Studio and IntelliJ IDEA files
+*.iml
+.idea/
+.idea/caches
+.idea/libraries
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+
+# Keystore files (Important for security)
+*.jks
+*.keystore
+
+# Google Services (if you use Firebase or other Google APIs)
+google-services.json
+
+# Native build folder
+.cxx/
+.externalNativeBuild/
+
+# OS-specific files
+.DS_Store
+Thumbs.db

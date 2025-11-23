@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.example.localmarkettracker.app-mergeDebugResources-46:/values-port/values-port.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\henok\\.gradle\\caches\\8.13\\transforms\\eb1453ebc7f891ce1217999b9830c7b6\\transformed\\appcompat-1.6.1\\res\\values-port\\values-port.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "55",
+                        "endOffsets": "106"
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <!-- Top App Bar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/topAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:backgroundTint="@color/primary"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        app:titleTextAppearance="@style/HeaderTitle"
+        app:navigationIcon="@drawable/ic_menu"
+        app:menu="@menu/top_app_bar_menu">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/welcomeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Good afternoon,"
+                android:textColor="@color/white"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/welcomeName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Luna"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+        </LinearLayout>
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <!-- Scrollable Content -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:paddingBottom="88dp"
+        android:layout_marginTop="72dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <!-- Search Bar -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:cardCornerRadius="14dp"
+                android:layout_marginTop="12dp"
+                app:cardElevation="6dp"
+                android:foreground="?attr/selectableItemBackground">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp">
+
+                    <androidx.appcompat.widget.SearchView
+                        android:id="@+id/searchView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:queryHint="@string/search_hint"
+                        android:iconifiedByDefault="false"
+                        android:background="@android:color/transparent"
+                        android:paddingStart="0dp"
+                        app:searchIcon="@drawable/ic_search"
+                        app:queryBackground="@android:color/transparent"
+                        app:closeIcon="@drawable/ic_close"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Categories -->
+            <TextView
+                android:id="@+id/labelCategories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nav_categories"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginTop="18dp"
+                android:textColor="@color/text_primary"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/categoriesRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never"/>
+
+            <!-- Nearby Markets -->
+            <TextView
+                android:id="@+id/labelNearby"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nearby Markets"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginTop="18dp"
+                android:textColor="@color/text_primary"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/nearbyRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:layout_marginTop="12dp"
+                android:overScrollMode="never"/>
+
+            <!-- Trending Markets -->
+            <TextView
+                android:id="@+id/labelTrending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trending Markets"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginTop="18dp"
+                android:textColor="@color/text_primary"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/trendingRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Circular Add Button -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAdd"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_add"
+        app:backgroundTint="@color/primary"
+        app:tint="@color/white"
+        app:borderWidth="0dp"
+        app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full"
+        app:layout_anchor="@id/bottomNav"
+        app:layout_anchorGravity="top|center"
+        android:contentDescription="@string/action_add"/>
+
+    <!-- Bottom Navigation -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_gravity="bottom"
+        android:background="@color/surface"
+        app:itemIconTint="@color/nav_item_color"
+        app:itemTextColor="@color/nav_item_color"
+        app:menu="@menu/bottom_nav_menu"
+        app:labelVisibilityMode="labeled"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,470 @@
+[
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/layout_activity_admin_dashboard.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/layout/activity_admin_dashboard.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/anim_slide_in_right.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/anim/slide_in_right.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_bg_button_rounded.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/bg_button_rounded.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/menu_top_app_bar_menu.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/menu/top_app_bar_menu.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_store.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_store.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/layout_activity_settings.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/layout/activity_settings.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_menu.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_menu.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/layout_activity_login.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/layout/activity_login.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_lock.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_lock.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_dairy.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_dairy.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/layout_activity_add_item.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/layout/activity_add_item.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/layout_item_market_grid.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/layout/item_market_grid.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/layout_activity_main.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_bg_input_clean.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/bg_input_clean.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_market_banner.png.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/market_banner.png"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/layout_activity_edit_profile.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/layout/activity_edit_profile.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/layout_activity_add_price.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/layout/activity_add_price.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_bg_bottom_bar_glass.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/bg_bottom_bar_glass.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_launche.png.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_launche.png"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/layout_activity_splash.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/layout/activity_splash.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_profile_circle_icon.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_profile_circle_icon.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_email.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_email.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_bg_gradient_clouds.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/bg_gradient_clouds.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_bg_card_modern.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/bg_card_modern.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_vegetables.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_vegetables.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_bg_top_curve.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/bg_top_curve.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/layout_activity_profile.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/layout/activity_profile.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/layout_dashboard_layout.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/layout/dashboard_layout.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_bg_card_glass.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/bg_card_glass.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_fruits.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_fruits.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/layout_activity_forgot_password.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/layout/activity_forgot_password.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/layout_activity_item_list.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/layout/activity_item_list.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/layout_item_nearby_market.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/layout/item_nearby_market.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/layout_item_market_vertical.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/layout/item_market_vertical.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/layout_item_market_horizontal.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/layout/item_market_horizontal.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/color_nav_selector.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/color/nav_selector.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/layout_activity_main_glass.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/layout/activity_main_glass.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/color_nav_item_color.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/color/nav_item_color.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_bg_search_glass.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/bg_search_glass.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_analytics.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_analytics.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/layout_activity_main_explore.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/layout/activity_main_explore.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_bg_glass_gradient.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/bg_glass_gradient.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_bg_circle_white.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/bg_circle_white.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_bg_circle_translucent.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/bg_circle_translucent.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_bg_input_lightblue.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/bg_input_lightblue.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_bg_blue_gradient_clouds.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/bg_blue_gradient_clouds.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_bg_btn_gradient.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/bg_btn_gradient.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/layout_activity_market_detail_full.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/layout/activity_market_detail_full.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/layout_activity_register.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/layout/activity_register.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_bg_input_rounded.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/bg_input_rounded.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/layout_market_item.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/layout/market_item.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_user.png.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_user.png"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_tag_category.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/tag_category.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_spices_herbs.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_spices_herbs.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/layout_activity_map.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/layout/activity_map.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_grains_cereals.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_grains_cereals.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_profile.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_profile.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/layout_item_market.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/layout/item_market.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_map.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_map.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_bg_glassmorphism_card.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/bg_glassmorphism_card.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_bg_rounded_tag_green.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/bg_rounded_tag_green.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/layout_item_category.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/layout/item_category.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_back.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_back.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_bg_button_primary.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/bg_button_primary.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/mipmap-xxxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/mipmap-xxxhdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/anim_slide_out_left.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/anim/slide_out_left.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/menu_main_menu.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/menu/main_menu.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_stor.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_stor.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_market_placeholder.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/market_placeholder.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_local_grocery_store.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_local_grocery_store.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/layout_activity_market_detail.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/layout/activity_market_detail.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_bg_topbar_glass.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/bg_topbar_glass.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/mipmap-mdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/mipmap-mdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_home.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_home.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_app_logo.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_app_logo.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_search_background.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/search_background.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_bg_glassmorphism_input.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/bg_glassmorphism_input.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_bg_btn_lightblue.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/bg_btn_lightblue.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_placeholder.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/placeholder.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/mipmap-xxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/mipmap-xxhdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_close.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_close.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_notification.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_notification.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_meat.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_meat.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/menu_bottom_nav_menu.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/menu/bottom_nav_menu.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_blank.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_blank.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/mipmap-xhdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/mipmap-xhdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_gradient_bottom_fade.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/gradient_bottom_fade.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_bg_profile_circle.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/bg_profile_circle.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_search.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_search.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/layout_activity_analytics.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/layout/activity_analytics.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/layout_activity_map_view.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/layout/activity_map_view.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/anim_fade_in.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/anim/fade_in.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_building_materials.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_building_materials.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/layout_item_comment.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/layout/item_comment.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_store_items.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_store_items.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_add.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_add.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_market_logo.png.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_market_logo.png"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_bg_glass_card.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/bg_glass_card.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_bg_market_gradient.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/bg_market_gradient.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/mipmap-hdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/mipmap-hdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/drawable_ic_eye_toggle.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/drawable/ic_eye_toggle.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/layout_activity_item_details.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/layout/activity_item_details.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/anim_slide_up.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/anim/slide_up.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/layout_activity_signup.xml.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/layout/activity_signup.xml"
+    },
+    {
+        "merged": "com.example.localmarkettracker.app-debug-48:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.localmarkettracker.app-main-50:/mipmap-xxxhdpi/ic_launcher.webp"
+    }
+]

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Local Market Tracker</string>
+
+    <string name="login_title">Welcome</string>
+    <string name="login_subtitle">Login with your username</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="signup_prompt">Don/t have an account? Sign up</string>
+    <string name="hint_username_email">Username or Email</string>
+    <string name="hint_password">Password</string>
+    <string name="toggle_password_visibility">Toggle password visibility</string>
+    <string name="welcome_user">Welcome, %1$s!</string>
+    <string name="action_login">Login</string>
+    <string name="action_register">Create account</string>
+
+    <string name="search_hint">Search markets or items...</string>
+    <string name="search_icon_desc">Search icon</string>
+    <string name="action_search">Search</string>
+    <string name="action_add">Add Price</string>
+    <string name="action_map">Map</string>
+    <string name="add_item">Add item</string>
+    <string name="loading">Loading...</string>
+    <string name="analytics">Analytics</string>
+
+    <string name="pref_language">Language</string>
+    <string name="pref_currency">Currency</string>
+
+    <string name="nav_home">Home</string>
+    <string name="nav_map">Map</string>
+    <string name="nav_profile">Profile</string>
+    <string name="nav_categories">Categories</string>
+
+    <string name="vegetables">Vegetables</string>
+    <string name="fruits">Fruits</string>
+    <string name="meat">Meat</string>
+    <string name="dairy">Dairy</string>
+    <string name="store_items">Store Items</string>
+    <string name="building_materials">Building Mats</string>
+    <string name="grains_cereals">Grains &amp; Cereals</string>
+    <string name="spices_herbs">Spices &amp; Herbs</string>
+
+    <string name="welcome_text">Good afternoon,</string>
+    <string name="welcome_name">Luna</string>
+
+    <string name="nearby_markets">Nearby Markets</string>
+    <string name="trending_markets">Trending Markets</string>
+    <string name="items_list_default_title">Item Prices</string>
+    <string name="category_label">Category: %1$s</string>
+
+    <string name="market_details_title">Market Details</string>
+    <string name="market_icon_desc">Market icon or logo</string>
+    <string name="status_open_placeholder">Status: Open</string>
+    <string name="category_retail_placeholder">Category: Retail</string>
+    <string name="description_placeholder">Detailed information about the market.</string>
+    
+    <string name="market_name_placeholder">Market Name Placeholder</string>
+    <string name="market_status_open">Status: Open</string>
+    <string name="market_category_retail">Category: Retail</string>
+    <string name="market_description">Description: Detailed information about the market.</string>
+
+    <string name="product_name_placeholder">Product Name</string>
+    <string name="price_placeholder">Price</string>
+    <string name="item_form_market_placeholder">Market</string>
+
+    <string name="desc_search_icon">Search icon</string>
+    <string name="desc_map_icon">Map icon</string>
+    <string name="desc_add_button">Add new item</string>
+    <string name="category_icon_description">Category icon</string>
+    <string name="category_name_placeholder">Category Name</string>
+    
+    <string name="ic_back">Back navigation button</string>
+
+    <string name="google_maps_key">AIzaSyAo5AlKXPpDwz7PXw62bKfK335-5ZeMDqo</string>
+
+    <string-array name="roles">
+        <item>Buyer</item>
+        <item>Seller</item>
+    </string-array>
+
+    <!-- ✅ Added strings to fix layout errors -->
+    <string name="market_details">Market Details</string>
+    <string name="market_name">Central Market</string>
+    <string name="market_status">Open Now</string>
+    <string name="market_category">Category: Vegetables &amp; Fruits</string>
+    <string name="market_description_full">Fresh produce, grains, and spices available daily.</string>
+
+</resources>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <uses-feature android:name="android.hardware.location.gps" android:required="false"/>
+
+    <application
+        android:allowBackup="true"
+        android:supportsRtl="true"
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:theme="@style/Theme.LocalMarketTracker">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name="com.example.localmarkettracker.activities.SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.LocalMarketTracker">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="com.example.localmarkettracker.activities.LoginActivity" android:exported="false" />
+        <activity android:name="com.example.localmarkettracker.activities.SignupActivity" android:exported="false" />
+        <activity android:name="com.example.localmarkettracker.activities.ForgotPasswordActivity" android:exported="false" />
+        <activity android:name="com.example.localmarkettracker.activities.MainActivity" android:exported="false" />
+        <activity android:name="com.example.localmarkettracker.activities.AddPriceActivity" android:exported="false" />
+        <activity android:name="com.example.localmarkettracker.activities.MarketDetailActivity" android:exported="false" />
+        <activity android:name="com.example.localmarkettracker.activities.AdminDashboardActivity" android:exported="false" />
+        <activity android:name="com.example.localmarkettracker.activities.MapActivity" android:exported="false" />
+        <activity android:name="com.example.localmarkettracker.activities.ProfileActivity" android:exported="false" />
+        <activity android:name="com.example.localmarkettracker.activities.ItemListActivity" android:exported="false" />
+        <activity android:name="com.example.localmarkettracker.activities.ItemDetailsActivity" android:exported="false" />
+        <activity android:name="com.example.localmarkettracker.activities.AnalyticsActivity" android:exported="false" />
+
+        <activity android:name="com.example.localmarkettracker.activities.EditProfileActivity" android:exported="false" />
+
+    </application>
+
+</manifest>

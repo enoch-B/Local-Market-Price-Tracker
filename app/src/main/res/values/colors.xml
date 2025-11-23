@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary_text">#000000</color>
+    <color name="secondary_text">#757575</color>
+    <color name="primary">#1565C0</color>
+    <color name="primary_variant">#0D47A1</color>
+    <color name="primary_dark">#1565C0</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="textOnPrimary">#FFFFFF</color>
+    <color name="textOnPrimarySoft">#DCEEFF</color>
+    <color name="onGlassPrimary">#0D47A1</color>
+
+    <color name="secondary">#FF6F61</color>
+    <color name="secondary_variant">#E64A19</color>
+    <color name="on_secondary">#FFFFFF</color>
+
+    <color name="background">#121212</color>
+    <color name="on_background">#FFFFFF</color>
+    <color name="surface">#1F1F1F</color>
+    <color name="on_surface">#FFFFFF</color>
+    <color name="surface_variant">#333333</color>
+    <color name="on_surface_variant">#CCCCCC</color>
+    <color name="cardBackground">#1F1F1F</color>
+    <color name="cardSurface">#1F1F1F</color>
+    <color name="inputBackground">#2C2C2C</color>
+    <color name="loginBackground">#121212</color>
+    <color name="skyBackground">#1565C0</color>
+    <color name="surface_dark">#2C2C2C</color>
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#AAAAAA</color>
+    <color name="hint_text">#9E9E9E</color>
+    <color name="inputText">#FFFFFF</color>
+    <color name="textPrimaryOnDark">#FFFFFF</color>
+    <color name="textSecondaryOnDark">#CCCCCC</color>
+
+    <color name="nav_selected">#1565C0</color>
+    <color name="nav_unselected">#AAAAAA</color>
+    <color name="textPrimary">#212121</color>
+    <color name="textLight">#B0BEC5</color>
+    <color name="text_light">#F0F0F0</color>
+    <color name="accentText">#1565C0</color>
+    <color name="accentBlue">#1565C0</color>
+    <color name="loginAccent">#2C8E4E</color>
+
+    <color name="error">#D32F2F</color>
+    <color name="success">#388E3C</color>
+    <color name="warning">#FBC02D</color>
+
+    <color name="primaryButtonStart">#2C8E4E</color>
+    <color name="primaryButtonEnd">#226A3A</color>
+    <color name="buttonRipple">#33FFFFFF</color>
+    <color name="buttonDisabled">#A5D6A7</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="green">#4CAF50</color>
+    <color name="textSecondary">#666666</color>
+    <color name="surface_card">#2C2C2C</color>
+    <color name="category_icon_tint">#00AEEF</color>
+    <color name="text_primary_light">#F0F0F0</color>
+    <color name="success_dark">#228B22</color>
+    <color name="text_secondary_light">#DDDDDD</color>
+    <color name="divider_color">#555555</color>
+</resources>

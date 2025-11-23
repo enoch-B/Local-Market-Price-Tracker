@@ -1,0 +1,21 @@
+// Top-level build.gradle file
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' } // ✅ Added for MPAndroidChart
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.13.1'
+        classpath 'com.google.gms:google-services:4.4.0'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' } // ✅ Added here too for runtime resolution
+    }
+}
