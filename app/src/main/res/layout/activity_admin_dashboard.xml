@@ -1,18 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F5F8FE"
+    android:padding="16dp">
 
-    <TextView
-        android:id="@+id/tvWelcome"
-        android:text="Welcome!"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <!-- Optional: Add more buttons or features for admin -->
-</LinearLayout>
+        <!-- Header -->
+        <TextView
+            android:id="@+id/txtWelcomeAdmin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Admin Dashboard"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="#1E90FF"
+            android:paddingVertical="10dp" />
+
+        <!-- Manage Products -->
+        <LinearLayout
+            android:id="@+id/btnManageProducts"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:background="@drawable/blue_card"
+            android:gravity="center_vertical"
+            android:padding="18dp"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/ic_launche" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Manage Products"
+                android:textColor="#fff"
+                android:textSize="20sp"
+                android:layout_marginLeft="15dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <!-- Price Submissions -->
+        <LinearLayout
+            android:id="@+id/btnManagePrices"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:background="@drawable/blue_card_light"
+            android:gravity="center_vertical"
+            android:padding="18dp"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/market_banner" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Price Submissions"
+                android:textColor="#1E90FF"
+                android:textSize="20sp"
+                android:layout_marginLeft="15dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <!-- Users -->
+        <LinearLayout
+            android:id="@+id/btnUsers"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:background="@drawable/blue_card"
+            android:gravity="center_vertical"
+            android:padding="18dp"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/ic_user" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Manage Users"
+                android:textColor="#fff"
+                android:textSize="20sp"
+                android:layout_marginLeft="15dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <!-- Logout -->
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="Logout"
+            android:layout_marginTop="30dp"
+            android:textSize="18sp"
+            android:textColor="#ffffff"
+            android:background="#1E90FF"
+            android:gravity="center"
+            android:padding="10dp"
+            android:backgroundTint="#1E90FF"
+            android:fontFamily="sans-serif-medium"/>
+
+    </LinearLayout>
+</ScrollView>
