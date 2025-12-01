@@ -40,8 +40,9 @@
     <string name="grains_cereals">Grains &amp; Cereals</string>
     <string name="spices_herbs">Spices &amp; Herbs</string>
 
-    <string name="welcome_text">Good afternoon,</string>
-    <string name="welcome_name">Luna</string>
+
+    <string name="welcome_message">Hi, %1$s</string>
+    <string name="welcome_default">Welcome!</string>
 
     <string name="nearby_markets">Nearby Markets</string>
     <string name="trending_markets">Trending Markets</string>

@@ -15,6 +15,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/Theme.LocalMarketTracker">
 
+        <activity
+            android:name=".activities.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+<!--        <activity android:name=".activities.LoginActivity" />-->
+<!--        <activity android:name=".activities.ProfileActivity" />-->
+<!--        <activity android:name=".activities.MapActivity" />-->
+        <activity
+            android:name=".activities.ManageUsersActivity"
+            android:exported="false" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
@@ -32,7 +48,6 @@
         <activity android:name="com.example.localmarkettracker.activities.LoginActivity" android:exported="false" />
         <activity android:name="com.example.localmarkettracker.activities.SignupActivity" android:exported="false" />
         <activity android:name="com.example.localmarkettracker.activities.ForgotPasswordActivity" android:exported="false" />
-        <activity android:name="com.example.localmarkettracker.activities.MainActivity" android:exported="false" />
         <activity android:name="com.example.localmarkettracker.activities.AddPriceActivity" android:exported="false" />
         <activity android:name="com.example.localmarkettracker.activities.MarketDetailActivity" android:exported="false" />
         <activity android:name="com.example.localmarkettracker.activities.AdminDashboardActivity" android:exported="false" />
