@@ -18,7 +18,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_dashboard);
 
         // Initialize views
-        tvWelcome = findViewById(R.id.tvWelcome);
+//        tvWelcome = findViewById(R.id.tvWelcome);
 
         // Set a welcome message
         tvWelcome.setText("Welcome to Admin Dashboard");
