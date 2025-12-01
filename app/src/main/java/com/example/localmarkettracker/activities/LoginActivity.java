@@ -17,7 +17,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.localmarkettracker.R;
+import com.example.localmarkettracker.models.UserProfile;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -27,9 +30,9 @@ public class LoginActivity extends AppCompatActivity {
     private TextView txtWelcomeMessage;
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
     private static final String PREFS_NAME = "UserPrefs";
 
-    // ✅ Added toggle eye reference
     private ImageView togglePassword;
     private boolean isPasswordVisible = false;
 
@@ -38,8 +41,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // Firebase instances
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
+        // Bind views
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
@@ -47,38 +53,29 @@ public class LoginActivity extends AppCompatActivity {
         txtForgot = findViewById(R.id.txtForgot);
         progressBar = findViewById(R.id.progressLogin);
         txtWelcomeMessage = findViewById(R.id.txtWelcomeMessage);
-
-        // ✅ Bind toggle eye
         togglePassword = findViewById(R.id.togglePassword);
 
         updateWelcomeMessage();
 
-        btnLogin.setOnClickListener(v -> loginUser());
-
-        txtSignup.setOnClickListener(v -> {
-            startActivity(new Intent(LoginActivity.this, SignupActivity.class));
-        });
-
-        txtForgot.setOnClickListener(v -> {
-            startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
-        });
-
-        // ✅ Toggle eye functionality
+        // Toggle password visibility
         togglePassword.setOnClickListener(v -> {
             if (isPasswordVisible) {
-                // Hide password
                 etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 isPasswordVisible = false;
             } else {
-                // Show password
                 etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                 isPasswordVisible = true;
             }
-            // Move cursor to end
             etPassword.setSelection(etPassword.getText().length());
         });
+
+        // Click listeners
+        btnLogin.setOnClickListener(v -> loginUser());
+        txtSignup.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, SignupActivity.class)));
+        txtForgot.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class)));
     }
 
+    // Display last saved username in welcome message
     private void updateWelcomeMessage() {
         SharedPreferences sharedPref = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         String savedName = sharedPref.getString("USERNAME", "");
@@ -88,15 +85,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void saveUserNameOnLogin(String email) {
-        String display_name = email.split("@")[0];
-        SharedPreferences sharedPref = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("USERNAME", display_name);
-        editor.apply();
-        updateWelcomeMessage();
-    }
-
+    // Login user with email & password
     private void loginUser() {
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
@@ -119,17 +108,73 @@ public class LoginActivity extends AppCompatActivity {
                     btnLogin.setEnabled(true);
 
                     if (task.isSuccessful()) {
-                        saveUserNameOnLogin(email);
-                        Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                        finish();
+                        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                        if (firebaseUser != null) {
+                            fetchUserProfile(firebaseUser.getUid());
+                        }
                     } else {
                         Toast.makeText(LoginActivity.this,
-                                "Login Failed: " + (task.getException() != null ? task.getException().getMessage() : "Error"),
+                                "Login Failed: " + task.getException().getMessage(),
                                 Toast.LENGTH_LONG).show();
                     }
                 });
+    }
+
+    // Fetch user profile from Firestore
+    private void fetchUserProfile(String uid) {
+        db.collection("users")
+                .document(uid)
+                .get()
+                .addOnSuccessListener(document -> {
+                    if (document.exists()) {
+                        UserProfile profile = document.toObject(UserProfile.class);
+                        if (profile != null) {
+                            saveUserToLocal(profile);
+                            redirectBasedOnRole(profile);
+                        } else {
+                            Toast.makeText(LoginActivity.this, "User profile is empty!", Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Toast.makeText(LoginActivity.this, "User profile not found!", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .addOnFailureListener(e ->
+                        Toast.makeText(LoginActivity.this, "Error loading profile: " + e.getMessage(), Toast.LENGTH_LONG).show()
+                );
+    }
+
+    // Save user profile locally using SharedPreferences
+    private void saveUserToLocal(UserProfile profile) {
+        SharedPreferences sharedPref = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+
+        editor.putString("UID", profile.getUid());
+        editor.putString("EMAIL", profile.getEmail());
+        editor.putString("USERNAME", profile.getDisplayName());
+        editor.putString("ROLE", profile.getRole());
+        editor.putString("AVATAR", profile.getAvatarUrl());
+
+        editor.apply();
+    }
+
+    // Redirect users based on role
+    private void redirectBasedOnRole(UserProfile profile) {
+        Toast.makeText(this, "Welcome " + profile.getDisplayName(), Toast.LENGTH_SHORT).show();
+
+        Intent intent;
+
+        switch (profile.getRole().toLowerCase()) {
+            case "admin":
+                intent = new Intent(LoginActivity.this, ManageUsersActivity.class);
+                break;
+            case "user":
+            default:
+                intent = new Intent(LoginActivity.this, MainActivity.class);
+                break;
+        }
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 }
