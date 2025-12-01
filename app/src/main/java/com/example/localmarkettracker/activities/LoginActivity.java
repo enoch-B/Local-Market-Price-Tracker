@@ -165,7 +165,7 @@ public class LoginActivity extends AppCompatActivity {
 
         switch (profile.getRole().toLowerCase()) {
             case "admin":
-                intent = new Intent(LoginActivity.this, ManageUsersActivity.class);
+                intent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
                 break;
             case "user":
             default:
