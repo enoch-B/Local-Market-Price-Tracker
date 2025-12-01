@@ -58,7 +58,7 @@ public class ItemListActivity extends AppCompatActivity {
     }
 
     private void fetchItemsByCategory(@NonNull String category) {
-        db.collection("itemPrices")
+        db.collection("itemPrice")
                 .whereEqualTo("category", category)
                 .get()
                 .addOnCompleteListener(task -> {
@@ -79,6 +79,7 @@ public class ItemListActivity extends AppCompatActivity {
                     }
                 });
     }
+
 
     public void onItemClick(ItemPrice item) {
         String itemId = item.getItemId();

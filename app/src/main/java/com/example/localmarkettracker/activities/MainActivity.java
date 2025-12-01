@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
+    private static final String PREFS_NAME = "UserPrefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -244,12 +245,23 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+//    private void handleLogout() {
+//        mAuth.signOut(); // Sign out the user from Firebase
+//        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        startActivity(intent);
+//        finish(); // Close MainActivity
+//    }
     private void handleLogout() {
-        mAuth.signOut(); // Sign out the user from Firebase
+        FirebaseAuth.getInstance().signOut();
+
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        prefs.edit().clear().apply();  // Clear saved user data
+
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
-        finish(); // Close MainActivity
+        finish();
     }
 
 }
