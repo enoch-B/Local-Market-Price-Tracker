@@ -1,6 +1,7 @@
 package com.example.localmarkettracker.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +24,12 @@ import com.example.localmarkettracker.models.MarketModel;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,10 +48,16 @@ public class MainActivity extends AppCompatActivity {
     private final List<MarketModel> nearbyList = new ArrayList<>();
     private final List<MarketModel> trendingList = new ArrayList<>();
 
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         // Bind views
         topAppBar = findViewById(R.id.topAppBar);
@@ -56,11 +70,42 @@ public class MainActivity extends AppCompatActivity {
         btnMap = findViewById(R.id.btnMap);
 
         // Setup
+        setWelcomeName();
         setupToolbar();
         prepareData();
         setupUI();
         setupListeners();
     }
+
+    private void setWelcomeName() {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            String uid = currentUser.getUid();
+            // Assuming you have a "users" collection where each document ID is the user's UID
+            db.collection("users").document(uid).get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            // Assuming the user's name is stored in a field called "name"
+                            String name = documentSnapshot.getString("displayName");
+                            if (name != null && !name.isEmpty()) {
+                                // Correct - uses the Activity's context to format the string
+                                welcomeName.setText(getString(R.string.welcome_message, name)); // e.g., "Hi, {name}"
+                            } else {
+                                // Fallback if the name field is empty
+                                welcomeName.setText(getString(R.string.welcome_default));
+                            }
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        // Handle failure to fetch the document
+                        Toast.makeText(MainActivity.this, "Failed to load user data.", Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+            // No user is logged in, redirect to LoginActivity
+            handleLogout();
+        }
+    }
+
 
     private void setupToolbar() {
         setSupportActionBar(topAppBar);
@@ -192,12 +237,20 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, ProfileActivity.class));
             return true;
         } else if (id == R.id.action_logout) {
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
+            // Sign out from Firebase and redirect
+            handleLogout();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void handleLogout() {
+        mAuth.signOut(); // Sign out the user from Firebase
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish(); // Close MainActivity
+    }
+
 }
 
