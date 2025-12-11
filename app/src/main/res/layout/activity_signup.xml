@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="@drawable/bg_btn_lightblue">
+    android:background="@color/teal_500">
 
     <LinearLayout
         android:orientation="vertical"
@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:background="@drawable/bg_glass_card"
+            android:background= "@drawable/bg_white_rounded"
             android:elevation="10dp"
             android:gravity="center_horizontal"
             android:orientation="vertical"
@@ -30,7 +30,8 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="12dp"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_market_logo"
+                android:src="@drawable/market_banner"
+                android:background="@color/teal_300"
                 tools:ignore="ContentDescription" />
 
             <TextView
@@ -184,7 +185,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="26dp"
-                android:background="@drawable/bg_btn_lightblue"
+                android:background="@drawable/bg_btn_teal"
                 android:minHeight="48dp"
                 android:text="Sign Up"
                 android:textColor="@android:color/white"
@@ -211,7 +212,7 @@
                 android:minHeight="48dp"
                 android:padding="8dp"
                 android:text="Already have an account? Login"
-                android:textColor="@color/black"
+                android:textColor="@color/teal_500"
                 android:textSize="15sp"
                 tools:ignore="HardcodedText" />
 
