@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="@drawable/bg_btn_lightblue">
+    android:background="@color/teal_50"> <!-- Changed to teal light background -->
 
     <LinearLayout
         android:orientation="vertical"
@@ -21,16 +21,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:background="@drawable/bg_glass_card"
+            android:background="@drawable/bg_white_rounded"
             android:elevation="10dp">
 
             <ImageView
-                android:src="@drawable/ic_market_logo"
+                android:src="@drawable/ic_profile_circle_icon"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="12dp"
-                android:contentDescription="@string/app_name"
+                app:tint="@color/teal_700"
+              android:contentDescription="@string/app_name"
                 tools:ignore="ContentDescription" />
 
             <TextView
@@ -38,7 +39,7 @@
                 android:text="Welcome"
                 android:textStyle="bold"
                 android:textSize="26sp"
-                android:textColor="@android:color/black"
+                android:textColor="@color/teal_800"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="28dp"
                 android:layout_width="wrap_content"
@@ -51,15 +52,16 @@
                 android:inputType="textEmailAddress"
                 android:autofillHints="emailAddress"
                 android:drawableStart="@drawable/ic_email"
-                android:background="@drawable/bg_input_lightblue"
-                android:padding="14dp"
-                android:paddingStart="6dp"
-                android:layout_marginTop="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#CC000000"
-                android:textColorHint="#88000000"
-                tools:ignore="HardcodedText" />
+                android:drawableTint="@color/teal_600"
+            android:background="@drawable/bg_input_teal"
+            android:padding="14dp"
+            android:paddingStart="6dp"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/teal_900"
+            android:textColorHint="@color/teal_600"
+            tools:ignore="HardcodedText" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -72,14 +74,15 @@
                     android:inputType="textPassword"
                     android:autofillHints="password"
                     android:drawableStart="@drawable/ic_lock"
-                    android:background="@drawable/bg_input_lightblue"
-                    android:padding="14dp"
-                    android:paddingStart="6dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="#CC000000"
-                    android:textColorHint="#88000000"
-                    tools:ignore="HardcodedText" />
+                    android:drawableTint="@color/teal_600"
+                android:background="@drawable/bg_input_teal"
+                android:padding="14dp"
+                android:paddingStart="6dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/teal_900"
+                android:textColorHint="@color/teal_600"
+                tools:ignore="HardcodedText" />
 
                 <ImageView
                     android:id="@+id/togglePassword"
@@ -89,7 +92,7 @@
                     android:padding="10dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    app:tint="@android:color/black"
+                    app:tint="@color/teal_600"
                     android:contentDescription="Toggle password visibility"
                     tools:ignore="ContentDescription" />
             </RelativeLayout>
@@ -97,18 +100,18 @@
             <TextView
                 android:id="@+id/txtForgot"
                 android:text="Forgot Password?"
-                android:textColor="@android:color/black"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="end"
-                android:textSize="14sp"
-                android:clickable="true"
-                android:focusable="true"
-                android:minWidth="48dp"
-                android:minHeight="48dp"
-                android:padding="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:ignore="HardcodedText" />
+                android:textColor="@color/teal_700"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="end"
+            android:textSize="14sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            android:padding="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:ignore="HardcodedText" />
 
             <Button
                 android:id="@+id/btnLogin"
@@ -117,7 +120,7 @@
                 android:layout_marginTop="26dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_btn_lightblue"
+                android:background="@drawable/bg_btn_teal"
                 android:textColor="@android:color/white"
                 tools:ignore="HardcodedText" />
 
@@ -127,12 +130,13 @@
                 android:layout_marginTop="16dp"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:indeterminateTint="@color/teal_700" /> <!-- Teal progress bar -->
 
             <TextView
                 android:id="@+id/txtSignup"
                 android:text="Don't have an account? Sign up"
-                android:textColor="@android:color/black"
+                android:textColor="@color/teal_700"
                 android:layout_marginTop="18dp"
                 android:clickable="true"
                 android:focusable="true"
