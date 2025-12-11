@@ -85,5 +85,6 @@
     <string name="market_status">Open Now</string>
     <string name="market_category">Category: Vegetables &amp; Fruits</string>
     <string name="market_description_full">Fresh produce, grains, and spices available daily.</string>
+    <string name="cd_add_new_price">Add new price update</string>
 
 </resources>
