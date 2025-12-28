@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_manage_users"
+        android:title="Manage Users"
+        android:icon="@drawable/ic_user" />
+    <!-- Use @drawable/ic_chart or any user icon you have if ic_user is missing -->
+
+    <item
+        android:id="@+id/action_profile"
+        android:title="Profile"
+        android:icon="@drawable/ic_settings" />
+    <!-- Use @drawable/ic_settings or a profile icon -->
+
+    <item
+        android:id="@+id/action_logout"
+        android:title="Logout"
+        android:icon="@drawable/ic_logout" />
+</menu>
