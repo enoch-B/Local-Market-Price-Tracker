@@ -53,21 +53,21 @@ public class LoginActivity extends AppCompatActivity {
         txtForgot = findViewById(R.id.txtForgot);
         progressBar = findViewById(R.id.progressLogin);
         txtWelcomeMessage = findViewById(R.id.txtWelcomeMessage);
-        togglePassword = findViewById(R.id.togglePassword);
+
 
         updateWelcomeMessage();
 
         // Toggle password visibility
-        togglePassword.setOnClickListener(v -> {
-            if (isPasswordVisible) {
-                etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                isPasswordVisible = false;
-            } else {
-                etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                isPasswordVisible = true;
-            }
-            etPassword.setSelection(etPassword.getText().length());
-        });
+//        togglePassword.setOnClickListener(v -> {
+//            if (isPasswordVisible) {
+//                etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+//                isPasswordVisible = false;
+//            } else {
+//                etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+//                isPasswordVisible = true;
+//            }
+//            etPassword.setSelection(etPassword.getText().length());
+//        });
 
         // Click listeners
         btnLogin.setOnClickListener(v -> loginUser());
