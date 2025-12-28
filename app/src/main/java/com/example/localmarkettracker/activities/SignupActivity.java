@@ -7,10 +7,13 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +29,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class SignupActivity extends AppCompatActivity {
 
     private EditText etEmail, etPassword, etConfirmPassword, etFullName;
+
+    private AutoCompleteTextView autoCompleteRole;
     private Button btnSignup;
     private TextView txtLogin;
     private ProgressBar progressBar;
@@ -47,7 +52,9 @@ public class SignupActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         bindViews();
-        setupToggleButtons();
+//        setupToggleButtons();
+
+
 
         btnSignup.setOnClickListener(v -> registerUser());
         txtLogin.setOnClickListener(v -> finish());
@@ -61,32 +68,41 @@ public class SignupActivity extends AppCompatActivity {
         btnSignup = findViewById(R.id.btnSignup);
         txtLogin = findViewById(R.id.txtLogin);
         progressBar = findViewById(R.id.progressSignup);
+        autoCompleteRole= findViewById(R.id.autoCompleteRole);
 
-        togglePassword = findViewById(R.id.togglePassword);
-        toggleConfirmPassword = findViewById(R.id.toggleConfirmPassword);
+
+        String[] roles = new String[]{"Customer", "Vendor"};
+
+        // CHANGE 3: Use the correct layout for AutoCompleteTextView items
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, roles);
+
+        // CHANGE 4: Set adapter on the AutoCompleteTextView
+        autoCompleteRole.setAdapter(adapter);
+
+
     }
 
-    private void setupToggleButtons() {
-        togglePassword.setOnClickListener(v -> {
-            if (isPasswordVisible) {
-                etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            } else {
-                etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-            }
-            isPasswordVisible = !isPasswordVisible;
-            etPassword.setSelection(etPassword.getText().length());
-        });
-
-        toggleConfirmPassword.setOnClickListener(v -> {
-            if (isConfirmPasswordVisible) {
-                etConfirmPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            } else {
-                etConfirmPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-            }
-            isConfirmPasswordVisible = !isConfirmPasswordVisible;
-            etConfirmPassword.setSelection(etConfirmPassword.getText().length());
-        });
-    }
+//    private void setupToggleButtons() {
+//        togglePassword.setOnClickListener(v -> {
+//            if (isPasswordVisible) {
+//                etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+//            } else {
+//                etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+//            }
+//            isPasswordVisible = !isPasswordVisible;
+//            etPassword.setSelection(etPassword.getText().length());
+//        });
+//
+//        toggleConfirmPassword.setOnClickListener(v -> {
+//            if (isConfirmPasswordVisible) {
+//                etConfirmPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+//            } else {
+//                etConfirmPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+//            }
+//            isConfirmPasswordVisible = !isConfirmPasswordVisible;
+//            etConfirmPassword.setSelection(etConfirmPassword.getText().length());
+//        });
+//    }
 
     // -----------------------------
     // 🚀 USER REGISTRATION PROCESS
@@ -96,6 +112,8 @@ public class SignupActivity extends AppCompatActivity {
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
         String confirmPassword = etConfirmPassword.getText().toString().trim();
+        String role = autoCompleteRole.getText().toString().trim();
+
 
         // Validation
         if (TextUtils.isEmpty(name)) {
@@ -112,6 +130,11 @@ public class SignupActivity extends AppCompatActivity {
         }
         if (!password.equals(confirmPassword)) {
             etConfirmPassword.setError("Passwords do not match");
+            return;
+        }
+        if (TextUtils.isEmpty(role)) {
+            autoCompleteRole.setError("Role is required");
+            Toast.makeText(this, "Please select a role", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -170,12 +193,15 @@ public class SignupActivity extends AppCompatActivity {
 
         String uid = firebaseUser.getUid();
         String email = firebaseUser.getEmail();
+        String role = autoCompleteRole.getText().toString().trim();
+
+
 
         UserProfile profile = new UserProfile();
         profile.setUid(uid);
         profile.setEmail(email);
         profile.setDisplayName(fullName); // 🔥 FIXED: using input name
-        profile.setRole("user");
+        profile.setRole(role);
         profile.setAvatarUrl("");
 
         db.collection("users")
