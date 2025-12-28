@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +22,8 @@ import com.example.localmarkettracker.adapters.RecentUpdatesAdapter;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,8 +63,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         // Setup chip group filters
         setupChipFilters();
 
-        // Setup swipe refresh
-        setupSwipeRefresh();
+
 
         // Setup FAB click listener
         setupFAB();
@@ -75,7 +77,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         tvTotalMarkets = findViewById(R.id.tv_total_markets);
         tvTotalItems = findViewById(R.id.tv_total_items);
         tvTodayUpdates = findViewById(R.id.tv_today_updates);
-        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
+//        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         recyclerRecentUpdates = findViewById(R.id.recycler_recent_updates);
         chipGroup = findViewById(R.id.chip_group);
         fabAddPrice = findViewById(R.id.fab_add_price);
@@ -87,6 +89,13 @@ public class AdminDashboardActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAdminMenu(v);
+            }
+        });
+
     }
 
     private void setupStatistics() {
@@ -137,21 +146,21 @@ public class AdminDashboardActivity extends AppCompatActivity {
         });
     }
 
-    private void setupSwipeRefresh() {
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // Simulate data loading
-                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        loadDashboard();
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                }, 1500);
-            }
-        });
-    }
+//    private void setupSwipeRefresh() {
+//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                // Simulate data loading
+//                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        loadDashboard();
+//                        swipeRefreshLayout.setRefreshing(false);
+//                    }
+//                }, 1500);
+//            }
+//        });
+//    }
 
     private void setupFAB() {
         fabAddPrice.setOnClickListener(new View.OnClickListener() {
@@ -235,7 +244,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.admin_menu, menu);
+        getMenuInflater().inflate(R.menu.admin_drawer_menu, menu);
         return true;
     }
 
@@ -281,5 +290,48 @@ public class AdminDashboardActivity extends AppCompatActivity {
         public String getPrice() { return price; }
         public String getTimeAgo() { return timeAgo; }
         public String getStatus() { return status; }
+    }
+
+
+    private void showAdminMenu(View v) {
+        // Create the PopupMenu
+        PopupMenu popup = new PopupMenu(this, v);
+
+        // Inflate the menu resource we created
+        popup.getMenuInflater().inflate(R.menu.admin_drawer_menu, popup.getMenu());
+
+        // Handle item clicks
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int id = item.getItemId();
+
+                if (id == R.id.action_manage_users) {
+                    // Navigate to Manage Users Activity
+                    startActivity(new Intent(AdminDashboardActivity.this, ManageUsersActivity.class));
+                    return true;
+                }
+                else if (id == R.id.action_profile) {
+                    // Navigate to Profile Activity
+                    startActivity(new Intent(AdminDashboardActivity.this, ProfileActivity.class));
+                    return true;
+                }
+
+
+    else if (id == R.id.action_logout) {
+        // Handle Logout
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(AdminDashboardActivity.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+        return true;
+    }
+                return false;
+}
+        });
+
+                // Show the menu
+ popup.show();
     }
 }
