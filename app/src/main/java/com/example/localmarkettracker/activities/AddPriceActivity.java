@@ -1,101 +1,107 @@
 package com.example.localmarkettracker.activities;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.localmarkettracker.R;
+import com.example.localmarkettracker.models.PriceSubmission; // Ensure this model has a 'category' field now
+import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddPriceActivity extends AppCompatActivity {
 
-    private AutoCompleteTextView actProduct, actMarket;
-    private Spinner spCurrency;
+    private AutoCompleteTextView autoCompleteCategory, autoCompleteProduct; // Added category
     private EditText etPrice;
     private Button btnSubmit;
-    private ProgressBar progressAdd;
+    private FirebaseFirestore db;
+    private String currentShopName = "Unknown Shop";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_price);
 
-        // Initialize views
-        actProduct = findViewById(R.id.actProduct);
-        actMarket = findViewById(R.id.actMarket);
-        spCurrency = findViewById(R.id.spCurrency);
+        db = FirebaseFirestore.getInstance();
+
+        // Bind Views
+        autoCompleteCategory = findViewById(R.id.autoCompleteCategory);
+        autoCompleteProduct = findViewById(R.id.autoCompleteProduct);
         etPrice = findViewById(R.id.etPrice);
         btnSubmit = findViewById(R.id.btnSubmit);
-        progressAdd = findViewById(R.id.progressAdd);
 
-        // Example data for AutoCompleteTextViews
-        String[] products = {"Product 1", "Product 2", "Product 3"};
-        String[] markets = {"Market 1", "Market 2", "Market 3"};
+        // 1. Setup Categories
+        String[] categories = {
+                getString(R.string.vegetables),
+                getString(R.string.fruits),
+                getString(R.string.meat),
+                getString(R.string.dairy),
+                getString(R.string.store_items),
+                getString(R.string.building_materials),
+                getString(R.string.grains_cereals),
+                getString(R.string.spices_herbs)
+        };
 
-        // Set up adapters
-        ArrayAdapter<String> productAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_dropdown_item_1line, products);
-        actProduct.setAdapter(productAdapter);
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, categories);
+        autoCompleteCategory.setAdapter(categoryAdapter);
 
-        ArrayAdapter<String> marketAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_dropdown_item_1line, markets);
-        actMarket.setAdapter(marketAdapter);
+        // 2. Setup Sample Products (Ideally fetch these based on selected category later)
+        String[] products = {"Tomatoes", "Onions", "Potatoes", "Carrots", "Spinach", "Teff", "Coffee", "Cement", "Milk"};
+        ArrayAdapter<String> productAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, products);
+        autoCompleteProduct.setAdapter(productAdapter);
 
-        // Set up the Spinner with values from arrays.xml (default_currencies)
-        ArrayAdapter<CharSequence> currencyAdapter = ArrayAdapter.createFromResource(
-                this, R.array.default_currencies, android.R.layout.simple_spinner_item);
-        currencyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spCurrency.setAdapter(currencyAdapter);
+        fetchUserProfile();
 
-        // Button click listener
         btnSubmit.setOnClickListener(v -> submitPrice());
     }
 
+    private void fetchUserProfile() {
+        String uid = FirebaseAuth.getInstance().getUid();
+        if(uid != null) {
+            db.collection("users").document(uid).get().addOnSuccessListener(doc -> {
+                if(doc.exists() && doc.getString("shopName") != null) {
+                    currentShopName = doc.getString("shopName");
+                }
+            });
+        }
+    }
+
     private void submitPrice() {
-        String productName = actProduct.getText().toString().trim();
-        String marketName = actMarket.getText().toString().trim();
-        String currency = spCurrency.getSelectedItem().toString();
-        String priceInput = etPrice.getText().toString().trim();
+        String category = autoCompleteCategory.getText().toString();
+        String product = autoCompleteProduct.getText().toString();
+        String priceStr = etPrice.getText().toString();
 
-        // Validate input
-        if (productName.isEmpty() || marketName.isEmpty() || priceInput.isEmpty()) {
-            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+        if(category.isEmpty() || product.isEmpty() || priceStr.isEmpty()) {
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        double price;
-        try {
-            price = Double.parseDouble(priceInput);
-        } catch (NumberFormatException e) {
-            Toast.makeText(this, "Invalid price", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        double price = Double.parseDouble(priceStr);
+        String uid = FirebaseAuth.getInstance().getUid();
 
-        // Show progress
-        progressAdd.setVisibility(View.VISIBLE);
-        btnSubmit.setEnabled(false);
+        // Create submission data map (or update your PriceSubmission model to include category)
+        Map<String, Object> submission = new HashMap<>();
+        submission.put("vendorId", uid);
+        submission.put("category", category); // NEW FIELD
+        submission.put("itemName", product);
+        submission.put("price", price);
+        submission.put("status", "Pending");
+        submission.put("timestamp", new Timestamp(new Date()));
+        submission.put("shopName", currentShopName);
 
-        // Simulate saving data with a delay
-        new android.os.Handler().postDelayed(() -> {
-            progressAdd.setVisibility(View.GONE);
-            btnSubmit.setEnabled(true);
-
-            Toast.makeText(AddPriceActivity.this,
-                    "Price submitted: " + price + " " + currency,
-                    Toast.LENGTH_SHORT).show();
-
-            // Clear fields
-            actProduct.setText("");
-            actMarket.setText("");
-            etPrice.setText("");
-            spCurrency.setSelection(0);
-        }, 2000); // 2 seconds delay
+        db.collection("price_submissions").add(submission)
+                .addOnSuccessListener(doc -> {
+                    Toast.makeText(this, "Price submitted for approval!", Toast.LENGTH_SHORT).show();
+                    finish();
+                })
+                .addOnFailureListener(e -> Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 }
