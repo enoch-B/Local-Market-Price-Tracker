@@ -70,6 +70,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:hint="Full Name"
+                    android:textColorHint="#000"
                     app:boxCornerRadiusTopStart="12dp"
                     app:boxCornerRadiusTopEnd="12dp"
                     app:boxCornerRadiusBottomStart="12dp"
@@ -99,6 +100,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:hint="Email Address"
+                    android:textColorHint="#000"
                     app:boxCornerRadiusTopStart="12dp"
                     app:boxCornerRadiusTopEnd="12dp"
                     app:boxCornerRadiusBottomStart="12dp"
@@ -128,6 +130,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:hint="I am a:"
+
                     app:boxCornerRadiusTopStart="12dp"
                     app:boxCornerRadiusTopEnd="12dp"
                     app:boxCornerRadiusBottomStart="12dp"
@@ -150,7 +153,8 @@
                         android:inputType="none"
                         android:textColor="#2E3333"
                         android:textSize="14sp"
-                        android:hint="Select your role" />
+                        android:hint="Select your role"
+                        android:textColorHint="#000"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Password -->
@@ -160,6 +164,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:hint="Password"
+                    android:textColorHint="#000"
                     app:boxCornerRadiusTopStart="12dp"
                     app:boxCornerRadiusTopEnd="12dp"
                     app:boxCornerRadiusBottomStart="12dp"
@@ -191,6 +196,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="24dp"
                     android:hint="Confirm Password"
+                    android:textColorHint="#000"
                     app:boxCornerRadiusTopStart="12dp"
                     app:boxCornerRadiusTopEnd="12dp"
                     app:boxCornerRadiusBottomStart="12dp"
@@ -222,7 +228,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="24dp"
                     android:text="I agree to Terms and Conditions"
-                    android:textColor="#757575"
+                    android:textColor="#000"
                     android:textSize="14sp"
                     app:buttonTint="#66BB6A" />
 
