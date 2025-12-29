@@ -25,13 +25,13 @@
             android:orientation="vertical"
             android:layout_gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/welcomeText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/welcome_message"
-                android:textColor="@android:color/white"
-                android:textSize="12sp"/>
+<!--            <TextView-->
+<!--                android:id="@+id/welcomeText"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/welcome_message"-->
+<!--                android:textColor="@android:color/white"-->
+<!--                android:textSize="12sp"/>-->
 
             <TextView
                 android:id="@+id/welcomeName"
@@ -78,8 +78,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:backgroundTint="@color/cardview_light_background"
                 android:nestedScrollingEnabled="false"
-                android:overScrollMode="never"/>
+                android:overScrollMode="never"
+
+                />
 
             <!-- Nearby Markets -->
             <TextView
