@@ -6,7 +6,7 @@ import java.util.Map;
 public class Market {
     private String id;
     private String name;
-    private String region;
+    private String location;
     private double lat;
     private double lng;
     private Map<String, Object> metadata;
@@ -17,10 +17,10 @@ public class Market {
     }
 
     // Convenience constructor
-    public Market(String id, String name, String region, double lat, double lng) {
+    public Market(String id, String name, String location, double lat, double lng) {
         this.id = id;
         this.name = name;
-        this.region = region;
+        this.location = location;
         this.lat = lat;
         this.lng = lng;
         this.metadata = new HashMap<>();
@@ -33,8 +33,8 @@ public class Market {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
-    public String getRegion() { return region; }
-    public void setRegion(String region) { this.region = region; }
+    public String getLocation() { return location; }
+    public void setLocation(String location) { this.location = location; }
 
     public double getLat() { return lat; }
     public void setLat(double lat) { this.lat = lat; }
@@ -58,7 +58,7 @@ public class Market {
         return "Market{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", region='" + region + '\'' +
+                ", Location='" + location + '\'' +
                 ", lat=" + lat +
                 ", lng=" + lng +
                 ", metadata=" + metadata +
