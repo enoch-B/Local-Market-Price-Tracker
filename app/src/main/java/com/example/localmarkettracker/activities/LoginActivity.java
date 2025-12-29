@@ -1,5 +1,6 @@
 package com.example.localmarkettracker.activities;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.localmarkettracker.R;
@@ -21,6 +21,7 @@ import com.example.localmarkettracker.models.UserProfile;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.example.localmarkettracker.customer.CustomerActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -161,20 +162,22 @@ public class LoginActivity extends AppCompatActivity {
     private void redirectBasedOnRole(UserProfile profile) {
         Toast.makeText(this, "Welcome " + profile.getDisplayName(), Toast.LENGTH_SHORT).show();
 
-        Intent intent;
+        Intent intent = null;
 
         switch (profile.getRole().toLowerCase()) {
             case "admin":
                 intent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
                 break;
-            case "user":
-            default:
-                intent = new Intent(LoginActivity.this, MainActivity.class);
+            case "vendor":
+                intent = new Intent(LoginActivity.this, VendorDashboardActivity.class);
+                break;
+            case "customer":
+                intent = new Intent(LoginActivity.this, CustomerActivity.class );
                 break;
         }
 
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        finish();
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
     }
 }
