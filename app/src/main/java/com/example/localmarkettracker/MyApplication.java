@@ -12,10 +12,6 @@ public class MyApplication extends Application {
 
 
 
-        Map<String, String> config = new HashMap<>();
-        config.put("cloud_name", "dh1dstfzf");
-        config.put("api_key", "575676121955962");
-        config.put("api_secret", "GXy-2L_SfHxxrhzCBmeZUTtZEjo");
-        MediaManager.init(this, config);
+
     }
 }
