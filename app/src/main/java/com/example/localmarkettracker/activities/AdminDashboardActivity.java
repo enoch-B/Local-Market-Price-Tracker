@@ -1,14 +1,17 @@
 package com.example.localmarkettracker.activities;
 
-
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.view.Menu;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
@@ -18,320 +21,235 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.localmarkettracker.R;
-import com.example.localmarkettracker.adapters.RecentUpdatesAdapter;
+import com.example.localmarkettracker.models.PriceSubmission;
+import com.example.localmarkettracker.models.UserProfile;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView; // Corrected: Import added
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AdminDashboardActivity extends AppCompatActivity {
 
-    // Views
     private Toolbar toolbar;
-    private TextView tvTotalMarkets, tvTotalItems, tvTodayUpdates;
+    private TextView tvPendingCount, tvTotalUsers;
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerRecentUpdates;
     private ChipGroup chipGroup;
-    private FloatingActionButton fabAddPrice;
+    private MaterialCardView cardManageMarkets, cardManageProducts, cardManageUsers;
 
-    // Adapter
-    private RecentUpdatesAdapter recentUpdatesAdapter;
-
-    // Data list
-    private List<PriceUpdate> priceUpdateList = new ArrayList<>();
+    private FirebaseFirestore db;
+    private List<PriceSubmission> allSubmissions = new ArrayList<>();
+    private List<PriceSubmission> filteredList = new ArrayList<>();
+    private AdminSubmissionAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_dashboard);
 
-        // Initialize all views
+        db = FirebaseFirestore.getInstance();
+
         initializeViews();
-
-        // Setup toolbar
         setupToolbar();
-
-        // Setup statistics with sample data
-        setupStatistics();
-
-        // Setup RecyclerView
         setupRecyclerView();
-
-        // Setup chip group filters
         setupChipFilters();
+        setupManagementClicks();
 
+        loadDataFromFirestore();
+        loadUserCount();
 
-
-        // Setup FAB click listener
-        setupFAB();
-
-        // TODO: Load actual data from backend/API
-        loadSampleData();
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            loadDataFromFirestore();
+            loadUserCount();
+        });
     }
 
     private void initializeViews() {
         toolbar = findViewById(R.id.toolbar);
-        tvTotalMarkets = findViewById(R.id.tv_total_markets);
-        tvTotalItems = findViewById(R.id.tv_total_items);
-        tvTodayUpdates = findViewById(R.id.tv_today_updates);
-//        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
+        tvPendingCount = findViewById(R.id.tv_pending_count);
+        tvTotalUsers = findViewById(R.id.tv_total_users);
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         recyclerRecentUpdates = findViewById(R.id.recycler_recent_updates);
         chipGroup = findViewById(R.id.chip_group);
-        fabAddPrice = findViewById(R.id.fab_add_price);
+
+        cardManageMarkets = findViewById(R.id.card_manage_markets);
+        cardManageProducts = findViewById(R.id.card_manage_products);
+        cardManageUsers = findViewById(R.id.card_manage_users);
     }
 
     private void setupToolbar() {
         setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showAdminMenu(v);
-            }
-        });
-
-    }
-
-    private void setupStatistics() {
-        // TODO: Replace with actual data from API/database
-        tvTotalMarkets.setText("24");
-        tvTotalItems.setText("156");
-        tvTodayUpdates.setText("42");
+        toolbar.setNavigationOnClickListener(v -> showAdminMenu(v));
     }
 
     private void setupRecyclerView() {
-        recentUpdatesAdapter = new RecentUpdatesAdapter(priceUpdateList, new RecentUpdatesAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(PriceUpdate priceUpdate) {
-                // TODO: Handle item click - open edit/delete dialog
-                // showUpdateDetails(priceUpdate);
-            }
-
-            @Override
-            public void onApproveClick(PriceUpdate priceUpdate) {
-                // TODO: Handle approve action
-                // approvePriceUpdate(priceUpdate.getId());
-            }
-
-            @Override
-            public void onDeleteClick(PriceUpdate priceUpdate) {
-                // TODO: Handle delete action
-                // deletePriceUpdate(priceUpdate.getId());
-            }
-        });
-
         recyclerRecentUpdates.setLayoutManager(new LinearLayoutManager(this));
-        recyclerRecentUpdates.setAdapter(recentUpdatesAdapter);
+        adapter = new AdminSubmissionAdapter(filteredList);
+        recyclerRecentUpdates.setAdapter(adapter);
     }
 
+    private void setupManagementClicks() {
+        cardManageMarkets.setOnClickListener(v -> startActivity(new Intent(this, AdminMarketsActivity.class)));
+        cardManageProducts.setOnClickListener(v -> startActivity(new Intent(this, AdminProductsActivity.class)));
+        cardManageUsers.setOnClickListener(v -> startActivity(new Intent(this, ManageUsersActivity.class)));
+    }
+
+    private void loadUserCount() {
+        db.collection("users").get().addOnSuccessListener(snapshots -> {
+            tvTotalUsers.setText(String.valueOf(snapshots.size()));
+        });
+    }
     private void setupChipFilters() {
-        chipGroup.setOnCheckedStateChangeListener(new ChipGroup.OnCheckedStateChangeListener() {
-            @Override
-            public void onCheckedChanged(@NonNull ChipGroup group, @NonNull List<Integer> checkedIds) {
-                if (!checkedIds.isEmpty()) {
-                    Chip chip = findViewById(checkedIds.get(0));
-                    if (chip != null) {
-                        String filter = chip.getText().toString();
-                        // TODO: Apply filter to data based on selection
-                        applyFilter(filter);
-                    }
-                }
-            }
+        chipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {if (!checkedIds.isEmpty()) {
+            filterData(checkedIds.get(0));
+        }
         });
     }
 
-//    private void setupSwipeRefresh() {
-//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                // Simulate data loading
-//                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        loadDashboard();
-//                        swipeRefreshLayout.setRefreshing(false);
-//                    }
-//                }, 1500);
-//            }
-//        });
-//    }
 
-    private void setupFAB() {
-        fabAddPrice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: Open AddPriceActivity for adding new price entries
-                Intent intent = new Intent(AdminDashboardActivity.this, AddPriceActivity.class);
-                startActivity(intent);
+    private void loadDataFromFirestore() {
+        swipeRefreshLayout.setRefreshing(true);
+        db.collection("prices") // Corrected: Collection is likely named "prices" from your schema
+                .orderBy("timestamp", Query.Direction.DESCENDING)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    allSubmissions.clear();
+                    int pending = 0;
+                    for (DocumentSnapshot doc : queryDocumentSnapshots) {
+                        PriceSubmission submission = doc.toObject(PriceSubmission.class);
+                        if (submission != null) {
+                            submission.setPriceId(doc.getId()); // Use the correct setter from the model
+                            allSubmissions.add(submission);
+                            if (!submission.getIsApproved() && !"Rejected".equals(submission.getStatus())) { // Corrected: Check boolean
+                                pending++;
+                            }
+                        }
+                    }
+                    tvPendingCount.setText(String.valueOf(pending));
+                    filterData(chipGroup.getCheckedChipId());
+                    swipeRefreshLayout.setRefreshing(false);
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    swipeRefreshLayout.setRefreshing(false);
+                });
+    }
+
+    private void filterData(int checkedId) {
+        filteredList.clear();
+        if (checkedId == -1 || checkedId == R.id.chip_all) { // Handle no chip being checked
+            filteredList.addAll(allSubmissions);
+        } else if (checkedId == R.id.chip_pending) {
+            for (PriceSubmission p : allSubmissions) {
+                if (!p.getIsApproved() && !"Rejected".equals(p.getStatus())) filteredList.add(p);
             }
-        });
-    }
-
-    private void loadDashboard() {
-        // TODO: Implement actual dashboard data loading from API
-        // This is a placeholder for backend integration
-
-        // For now, just reload sample data
-        loadSampleData();
-
-        // Update statistics
-        setupStatistics();
-
-        // Show toast or notification about refresh completion
-        // Toast.makeText(this, "Dashboard refreshed", Toast.LENGTH_SHORT).show();
-    }
-
-    private void loadSampleData() {
-        priceUpdateList.clear();
-
-        // Add sample data
-        priceUpdateList.add(new PriceUpdate("1", "Tomatoes", "Central Market", "₹45/kg", "2 hours ago", "verified"));
-        priceUpdateList.add(new PriceUpdate("2", "Onions", "Local Bazaar", "₹30/kg", "3 hours ago", "pending"));
-        priceUpdateList.add(new PriceUpdate("3", "Potatoes", "Super Mart", "₹25/kg", "5 hours ago", "verified"));
-        priceUpdateList.add(new PriceUpdate("4", "Carrots", "Veggie Shop", "₹60/kg", "1 day ago", "verified"));
-        priceUpdateList.add(new PriceUpdate("5", "Apples", "Fruit Stand", "₹120/kg", "1 day ago", "pending"));
-        priceUpdateList.add(new PriceUpdate("6", "Bananas", "Central Market", "₹40/dozen", "2 days ago", "verified"));
-
-        if (recentUpdatesAdapter != null) {
-            recentUpdatesAdapter.notifyDataSetChanged();
+        } else if (checkedId == R.id.chip_approved) {
+            for (PriceSubmission p : allSubmissions) {
+                if (p.getIsApproved()) filteredList.add(p);
+            }
         }
+        adapter.notifyDataSetChanged();
     }
 
-    private void applyFilter(String filter) {
-        // TODO: Implement actual filtering logic based on backend data
-        // This is a placeholder
-
-        List<PriceUpdate> filteredList = new ArrayList<>();
-
-        switch (filter.toLowerCase()) {
-            case "all":
-                filteredList.addAll(priceUpdateList);
-                break;
-            case "today":
-                // Filter for today's updates
-                for (PriceUpdate update : priceUpdateList) {
-                    if (update.getTimeAgo().contains("hour") || update.getTimeAgo().equals("today")) {
-                        filteredList.add(update);
-                    }
-                }
-                break;
-            case "verified":
-                // Filter for verified updates
-                for (PriceUpdate update : priceUpdateList) {
-                    if (update.getStatus().equals("verified")) {
-                        filteredList.add(update);
-                    }
-                }
-                break;
-            case "pending":
-                // Filter for pending updates
-                for (PriceUpdate update : priceUpdateList) {
-                    if (update.getStatus().equals("pending")) {
-                        filteredList.add(update);
-                    }
-                }
-                break;
-        }
-
-        recentUpdatesAdapter.updateList(filteredList);
+    private void updateSubmissionStatus(String priceId, boolean isApproved) {
+        // Corrected: Update the boolean field in Firestore
+        db.collection("prices").document(priceId)
+                .update("isApproved", isApproved, "status", isApproved ? "Approved" : "Rejected")
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(this, "Submission " + (isApproved ? "Approved" : "Rejected"), Toast.LENGTH_SHORT).show();
+                    loadDataFromFirestore(); // Refresh data
+                });
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.admin_drawer_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == android.R.id.home) {
-            onBackPressed();
-            return true;
-        } else if (id == R.id.action_settings) {
-            // TODO: Open settings activity
-            return true;
-        } else if (id == R.id.action_logout) {
-            // TODO: Implement logout functionality
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    // Model class for price updates
-    public static class PriceUpdate {
-        private String id;
-        private String itemName;
-        private String marketName;
-        private String price;
-        private String timeAgo;
-        private String status;
-
-        public PriceUpdate(String id, String itemName, String marketName, String price, String timeAgo, String status) {
-            this.id = id;
-            this.itemName = itemName;
-            this.marketName = marketName;
-            this.price = price;
-            this.timeAgo = timeAgo;
-            this.status = status;
-        }
-
-        public String getId() { return id; }
-        public String getItemName() { return itemName; }
-        public String getMarketName() { return marketName; }
-        public String getPrice() { return price; }
-        public String getTimeAgo() { return timeAgo; }
-        public String getStatus() { return status; }
-    }
-
 
     private void showAdminMenu(View v) {
-        // Create the PopupMenu
         PopupMenu popup = new PopupMenu(this, v);
-
-        // Inflate the menu resource we created
         popup.getMenuInflater().inflate(R.menu.admin_drawer_menu, popup.getMenu());
-
-        // Handle item clicks
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                int id = item.getItemId();
-
-                if (id == R.id.action_manage_users) {
-                    // Navigate to Manage Users Activity
-                    startActivity(new Intent(AdminDashboardActivity.this, ManageUsersActivity.class));
-                    return true;
-                }
-                else if (id == R.id.action_profile) {
-                    // Navigate to Profile Activity
-                    startActivity(new Intent(AdminDashboardActivity.this, ProfileActivity.class));
-                    return true;
-                }
-
-
-    else if (id == R.id.action_logout) {
-        // Handle Logout
-        FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(AdminDashboardActivity.this, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
-        return true;
-    }
-                return false;
-}
+        popup.setOnMenuItemClickListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.action_manage_users) {
+                startActivity(new Intent(this, ManageUsersActivity.class));
+                return true;
+            } else if (itemId == R.id.action_logout) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+                return true;
+            }
+            return false;
         });
+        popup.show();
+    }
 
-                // Show the menu
- popup.show();
+    // Adapter Class
+    class AdminSubmissionAdapter extends RecyclerView.Adapter<AdminSubmissionAdapter.ViewHolder> {
+        List<PriceSubmission> list;
+
+        public AdminSubmissionAdapter(List<PriceSubmission> list) {
+            this.list = list;
+        }
+
+        @NonNull
+        @Override
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            // Corrected: Use the new admin-specific layout
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_admin_submission, parent, false);
+            return new ViewHolder(v);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+            PriceSubmission sub = list.get(position);
+            UserProfile user = new UserProfile();
+
+            holder.tvItemName.setText(sub.getProductName());
+            holder.tvShopName.setText("By " + (user.getShopName() != null ? user.getShopName() : "Unknown") + " in " + (sub.getMarketName() != null ? sub.getMarketName() : "Unknown"));
+            holder.tvPrice.setText("ETB " + sub.getPrice());
+
+            // Corrected: Logic to show/hide buttons vs. status chip
+            if (!sub.getIsApproved() && !"Rejected".equals(sub.getStatus())) { // This is a pending item
+                holder.adminActionsContainer.setVisibility(View.VISIBLE);
+                holder.chipStatus.setVisibility(View.GONE);
+
+                holder.btnApprove.setOnClickListener(v -> updateSubmissionStatus(sub.getPriceId(), true));
+                holder.btnReject.setOnClickListener(v -> updateSubmissionStatus(sub.getPriceId(), false));
+            } else { // This is an approved or rejected item
+                holder.adminActionsContainer.setVisibility(View.GONE);
+                holder.chipStatus.setVisibility(View.VISIBLE);
+                holder.chipStatus.setText(sub.getStatus());
+
+                int color = sub.getIsApproved() ? Color.parseColor("#66BB6A") : Color.parseColor("#EF5350");
+                holder.chipStatus.setChipBackgroundColor(ColorStateList.valueOf(color));
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+
+        class ViewHolder extends RecyclerView.ViewHolder {
+            TextView tvItemName, tvPrice, tvShopName;
+            Chip chipStatus;
+            MaterialButton btnApprove, btnReject;
+            LinearLayout adminActionsContainer;
+
+            public ViewHolder(@NonNull View itemView) {
+                super(itemView);
+                tvItemName = itemView.findViewById(R.id.tvItemName);
+                tvPrice = itemView.findViewById(R.id.tvPrice);
+                tvShopName = itemView.findViewById(R.id.tvShopName);
+                chipStatus = itemView.findViewById(R.id.chipStatus);
+                btnApprove = itemView.findViewById(R.id.btnApprove);
+                btnReject = itemView.findViewById(R.id.btnReject);
+                adminActionsContainer = itemView.findViewById(R.id.admin_actions_container);
+            }
+        }
     }
 }
