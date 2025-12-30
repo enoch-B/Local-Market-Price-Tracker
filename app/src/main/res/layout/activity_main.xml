@@ -1,175 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/root"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="#F5F9F6">
 
-    <!-- Top App Bar -->
+
+    <!-- 1. TOP SECTION: Quick Actions & Search -->
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/topAppBar"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:background="@color/teal_700"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#66BB6A"
+        app:title="Customer Dashboard"
+        app:titleTextColor="@android:color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu= "@menu/vendor_menu"/>
+s
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/bg_search_view"
+        app:iconifiedByDefault="false"
+        app:queryHint="Search products..."
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnFilter"/>
+
+    <ImageButton
+        android:id="@+id/btnFilter"
+        android:layout_width="48dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_circle_primary"
+        android:src="@drawable/ic_baseline_filter_list_24"
+        app:tint="@android:color/white"
+        android:contentDescription="Filter"
+        app:layout_constraintTop_toTopOf="@id/searchView"
+        app:layout_constraintBottom_toBottomOf="@id/searchView"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- 2. MIDDLE SECTION: Featured/Recent Products -->
+    <TextView
+        android:id="@+id/tv_deals_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Today's Best Deals"
+        android:textColor="#2E3333"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/searchView"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/dealsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        app:titleTextAppearance="@style/HeaderTitle"
-        app:menu="@menu/top_app_bar_menu"
-        app:theme="@style/ThemeOverlay.AppCompat.Light">
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@id/tv_deals_title"
+        tools:listitem="@layout/item_deal_card" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center_vertical">
+    <!-- 3. MAIN SECTION: Price Listings -->
+    <TextView
+        android:id="@+id/tv_recent_prices_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Recent Price Updates"
+        android:textColor="#2E3333"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/dealsRecyclerView"
+        app:layout_constraintStart_toStartOf="parent" />
 
-<!--            <TextView-->
-<!--                android:id="@+id/welcomeText"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="@string/welcome_message"-->
-<!--                android:textColor="@android:color/white"-->
-<!--                android:textSize="12sp"/>-->
-
-            <TextView
-                android:id="@+id/welcomeName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/welcome_default"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:textSize="18sp"/>
-        </LinearLayout>
-    </com.google.android.material.appbar.MaterialToolbar>
-
-    <!-- Scrollable Content -->
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/priceRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="16dp"
         android:clipToPadding="false"
-        android:paddingBottom="96dp"
-        android:layout_marginTop="72dp"
-        android:background="@android:color/white"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@id/tv_recent_prices_title"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_customer_price"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@android:color/white"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp">
-
-            <!-- Categories -->
-            <TextView
-                android:id="@+id/labelCategories"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/nav_categories"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:layout_marginTop="24dp"
-                android:textColor="#00796B"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/categoriesRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:backgroundTint="@color/cardview_light_background"
-                android:nestedScrollingEnabled="false"
-                android:overScrollMode="never"
-
-                />
-
-            <!-- Nearby Markets -->
-            <TextView
-                android:id="@+id/labelNearby"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/nearby_markets"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:layout_marginTop="32dp"
-                android:textColor="#00796B"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/nearbyRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="140dp"
-                android:layout_marginTop="16dp"
-                android:overScrollMode="never"/>
-
-            <!-- Trending Markets -->
-            <TextView
-                android:id="@+id/labelTrending"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/trending_markets"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:layout_marginTop="32dp"
-                android:textColor="#00796B"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/trendingRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:nestedScrollingEnabled="false"
-                android:overScrollMode="never"/>
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
-
-    <!-- Map Button (moved to bottom-right) -->
-    <ImageView
-        android:id="@+id/btnMap"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="96dp"
-        android:padding="8dp"
-        android:src="@drawable/ic_map"
-        android:background="@drawable/bg_circle_white"
-        android:backgroundTint="#00897B"
-        app:tint="@android:color/white"
-        android:elevation="4dp"
-        android:contentDescription="@string/nav_map"/>
-
-    <!-- Floating Add Button -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAdd"
-        android:layout_width="58dp"
-        android:layout_height="58dp"
-        android:layout_marginBottom="0dp"
-        android:layout_marginTop="60dp"
-        android:src="@drawable/ic_add"
-        app:backgroundTint="#00897B"
-        app:tint="@android:color/white"
-        app:borderWidth="0dp"
-        app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full"
-        app:layout_anchor="@id/bottomNav"
-        app:layout_anchorGravity="center_horizontal|top"
-        android:contentDescription="@string/action_add"/>
-
-    <!-- Bottom Navigation -->
+    <!-- Bottom Navigation Footer -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNav"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_gravity="bottom"
-        android:background="@android:color/white"
-        android:elevation="8dp"
-        app:itemIconSize="24dp"
-        app:itemIconTint="@color/bottom_nav_colors"
-        app:itemTextColor="@color/bottom_nav_colors"
-        app:itemPaddingTop="20dp"
-        app:itemPaddingBottom="10dp"
-        app:itemTextAppearanceActive="@style/NavItemTextActive"
-        app:itemTextAppearanceInactive="@style/NavItemTextInactive"
-        app:labelVisibilityMode="labeled"
-        app:menu="@menu/bottom_nav_menu"/>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        android:id="@+id/bottom_navigation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/windowBackground"
+        app:itemIconTint="@color/bottom_nav_color"
+        app:itemTextColor="@color/bottom_nav_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:menu="@menu/customer_bottom_menu" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
