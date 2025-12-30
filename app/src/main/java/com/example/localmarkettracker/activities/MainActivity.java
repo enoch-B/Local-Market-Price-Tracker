@@ -1,268 +1,171 @@
 package com.example.localmarkettracker.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.core.content.ContextCompat;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.localmarkettracker.R;
-import com.example.localmarkettracker.adapters.CategoryAdapter;
-import com.example.localmarkettracker.adapters.NearbyAdapter;
-import com.example.localmarkettracker.adapters.TrendingAdapter;
-import com.example.localmarkettracker.models.MarketModel;
-import com.google.android.material.appbar.MaterialToolbar;
+import com.example.localmarkettracker.adapters.DealsAdapter;
+import com.example.localmarkettracker.adapters.PriceAdapter;
+import com.example.localmarkettracker.models.PriceSubmission;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private MaterialToolbar topAppBar;
-    private TextView welcomeName;
+    private Toolbar toolbar;
+    private SearchView searchView;
+    private RecyclerView dealsRecyclerView, priceRecyclerView;
+    private BottomNavigationView bottomNavigationView;
+    // Removed the ProgressBar because it's not in the new layout
 
-    private RecyclerView categoriesRecycler, nearbyRecycler, trendingRecycler;
-    private BottomNavigationView bottomNav;
-    private FloatingActionButton fab;
-    private ImageView btnMap;
-
-    private final List<String> categories = new ArrayList<>();
-    private final List<MarketModel> nearbyList = new ArrayList<>();
-    private final List<MarketModel> trendingList = new ArrayList<>();
-
-    private FirebaseAuth mAuth;
     private FirebaseFirestore db;
-    private static final String PREFS_NAME = "UserPrefs";
+    private PriceAdapter priceAdapter;
+    private DealsAdapter dealsAdapter;
+
+    private List<PriceSubmission> allPrices = new ArrayList<>();
+    private List<PriceSubmission> filteredPrices = new ArrayList<>();
+    private List<PriceSubmission> dealList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        // Bind views
-        topAppBar = findViewById(R.id.topAppBar);
-        welcomeName = findViewById(R.id.welcomeName);
-        categoriesRecycler = findViewById(R.id.categoriesRecycler);
-        nearbyRecycler = findViewById(R.id.nearbyRecycler);
-        trendingRecycler = findViewById(R.id.trendingRecycler);
-        bottomNav = findViewById(R.id.bottomNav);
-        fab = findViewById(R.id.fabAdd);
-        btnMap = findViewById(R.id.btnMap);
-
-        // Setup
-        setWelcomeName();
+        initializeViews();
         setupToolbar();
-        prepareData();
-        setupUI();
-        setupListeners();
+        setupRecyclerViews();
+        setupBottomNavigation();
+        setupSearch();
+
+        loadApprovedPrices();
     }
 
-    private void setWelcomeName() {
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            String uid = currentUser.getUid();
-            // Assuming you have a "users" collection where each document ID is the user's UID
-            db.collection("users").document(uid).get()
-                    .addOnSuccessListener(documentSnapshot -> {
-                        if (documentSnapshot.exists()) {
-                            // Assuming the user's name is stored in a field called "name"
-                            String name = documentSnapshot.getString("displayName");
-                            if (name != null && !name.isEmpty()) {
-                                // Correct - uses the Activity's context to format the string
-                                welcomeName.setText(getString(R.string.welcome_message, name)); // e.g., "Hi, {name}"
-                            } else {
-                                // Fallback if the name field is empty
-                                welcomeName.setText(getString(R.string.welcome_default));
-                            }
-                        }
-                    })
-                    .addOnFailureListener(e -> {
-                        // Handle failure to fetch the document
-                        Toast.makeText(MainActivity.this, "Failed to load user data.", Toast.LENGTH_SHORT).show();
-                    });
-        } else {
-            // No user is logged in, redirect to LoginActivity
-            handleLogout();
-        }
+    private void initializeViews() {
+        toolbar = findViewById(R.id.toolbar);
+        searchView = findViewById(R.id.searchView);
+        dealsRecyclerView = findViewById(R.id.dealsRecyclerView);
+        priceRecyclerView = findViewById(R.id.priceRecyclerView);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        // The ProgressBar with id 'progressBar' was removed from the layout, so we remove the findViewById call
     }
-
 
     private void setupToolbar() {
-        setSupportActionBar(topAppBar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-        }
+        setSupportActionBar(toolbar);
+    }
 
-        topAppBar.setNavigationOnClickListener(v -> {
-            Toast.makeText(MainActivity.this, "Menu icon clicked (Implement Nav Drawer)", Toast.LENGTH_SHORT).show();
+    private void setupRecyclerViews() {
+        // Main Price List Adapter
+        priceAdapter = new PriceAdapter(this, filteredPrices, new PriceAdapter.PriceItemListener() {
+            @Override
+            public void onFavoriteClicked(PriceSubmission price, boolean isFavorite) {
+                Toast.makeText(MainActivity.this, "Favorite toggled for " + price.getProductName(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onItemClicked(PriceSubmission price) {
+                // You can navigate to a detail screen here
+            }
         });
+        priceRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        priceRecyclerView.setAdapter(priceAdapter);
+
+        // Best Deals List Adapter
+        dealsAdapter = new DealsAdapter(this, dealList);
+        dealsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        dealsRecyclerView.setAdapter(dealsAdapter);
     }
 
-    private void prepareData() {
-        categories.add(getString(R.string.vegetables));
-        categories.add(getString(R.string.fruits));
-        categories.add(getString(R.string.meat));
-        categories.add(getString(R.string.dairy));
-        categories.add(getString(R.string.store_items));
-        categories.add(getString(R.string.building_materials));
-        categories.add(getString(R.string.grains_cereals));
-        categories.add(getString(R.string.spices_herbs));
-
-        nearbyList.add(new MarketModel("Central Market", "Fresh produce and grains", "Open", "Vegetables", "0.6 km", R.drawable.ic_store, "Addis Ababa"));
-        nearbyList.add(new MarketModel("Fruit Plaza", "Seasonal fruits available", "Open", "Fruits", "1.2 km", R.drawable.ic_store, "Bole"));
-        nearbyList.add(new MarketModel("Veg Hub", "Organic vegetables", "Closed", "Vegetables", "2.3 km", R.drawable.ic_store, "Sarbet"));
-
-        trendingList.add(new MarketModel("Mercato", "Biggest market", "Open", "General", "3.1 km", R.drawable.ic_store, "Downtown"));
-        trendingList.add(new MarketModel("Local Bazaar", "Popular for spices", "Open", "General", "0.9 km", R.drawable.ic_store, "Akaki"));
-    }
-
-    private void setupUI() {
-        categoriesRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        categoriesRecycler.setAdapter(new CategoryAdapter(this, categories, name -> {
-            Intent intent = new Intent(MainActivity.this, ItemListActivity.class);
-            intent.putExtra("CATEGORY_NAME", name);
-            startActivity(intent);
-        }));
-
-        nearbyRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        nearbyRecycler.setAdapter(new NearbyAdapter(this, nearbyList, market -> {
-            Intent intent = new Intent(MainActivity.this, MarketDetailActivity.class);
-            intent.putExtra("MARKET_ID", market.getName());
-            startActivity(intent);
-        }));
-
-        trendingRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        trendingRecycler.setAdapter(new TrendingAdapter(this, trendingList, market -> {
-            Intent intent = new Intent(MainActivity.this, MarketDetailActivity.class);
-            intent.putExtra("MARKET_ID", market.getName());
-            startActivity(intent);
-        }));
-    }
-
-    private void setupListeners() {
-        bottomNav.setOnItemSelectedListener(item -> {
-            int id = item.getItemId();
-
-            if (id == R.id.nav_home) {
-                return true;
-            } else if (id == R.id.nav_analytics) {
-                startActivity(new Intent(this, AnalyticsActivity.class));
+    private void setupBottomNavigation() {
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_home) {
+                return true; // Already here
+            } else if (itemId == R.id.nav_profile) {
+                startActivity(new Intent(this, ProfileActivity.class));
                 return true;
             }
-            return false;
-        });
-
-        fab.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, AddPriceActivity.class));
-        });
-
-        btnMap.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, MapActivity.class);
-            startActivity(intent);
+            // Handle other items like Favorites or Compare
+            Toast.makeText(this, item.getTitle() + " Clicked", Toast.LENGTH_SHORT).show();
+            return true;
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.top_app_bar_menu, menu);
+    private void setupSearch() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filterAndDisplayPrices(query);
+                return false;
+            }
 
-        final MenuItem searchItem = menu.findItem(R.id.action_search);
-        final SearchView searchView = (SearchView) searchItem.getActionView();
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterAndDisplayPrices(newText);
+                return true;
+            }
+        });
+    }
 
-        if (searchView != null) {
-            searchView.setQueryHint(getString(R.string.search_hint));
+    private void loadApprovedPrices() {
+        // Since we don't have a main progress bar, we can just let the data load in.
+        // For a better UX, you could use shimmer effects on the RecyclerViews.
 
-            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    CategoryAdapter adapter = (CategoryAdapter) categoriesRecycler.getAdapter();
-                    if (adapter != null) adapter.getFilter().filter(query);
-                    return true;
+        db.collection("prices")
+                .whereEqualTo("isApproved", true)
+                .orderBy("timestamp", Query.Direction.DESCENDING)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    allPrices.clear();
+                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                        PriceSubmission price = doc.toObject(PriceSubmission.class);
+                        price.setPriceId(doc.getId());
+                        allPrices.add(price);
+                    }
+
+                    // Populate deals list (e.g., first 5 items)
+                    dealList.clear();
+                    dealList.addAll(allPrices.subList(0, Math.min(5, allPrices.size())));
+                    dealsAdapter.notifyDataSetChanged();
+
+                    // Initial display of all prices
+                    filterAndDisplayPrices("");
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to load prices: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void filterAndDisplayPrices(String searchText) {
+        filteredPrices.clear();
+        if (searchText.isEmpty()) {
+            filteredPrices.addAll(allPrices);
+        } else {
+            String lowerCaseQuery = searchText.toLowerCase();
+            for (PriceSubmission price : allPrices) {
+                boolean nameMatch = price.getProductName() != null && price.getProductName().toLowerCase().contains(lowerCaseQuery);
+                boolean marketMatch = price.getMarketName() != null && price.getMarketName().toLowerCase().contains(lowerCaseQuery);
+                if (nameMatch || marketMatch) {
+                    filteredPrices.add(price);
                 }
-
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    CategoryAdapter adapter = (CategoryAdapter) categoriesRecycler.getAdapter();
-                    if (adapter != null) adapter.getFilter().filter(newText);
-                    return true;
-                }
-            });
-
-            searchItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-                @Override
-                public boolean onMenuItemActionExpand(MenuItem item) {
-                    welcomeName.setVisibility(View.GONE);
-                    return true;
-                }
-
-                @Override
-                public boolean onMenuItemActionCollapse(MenuItem item) {
-                    welcomeName.setVisibility(View.VISIBLE);
-                    return true;
-                }
-            });
+            }
         }
-
-        return true;
+        priceAdapter.notifyDataSetChanged(); // This updates the UI
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_map) {
-            startActivity(new Intent(MainActivity.this, MapActivity.class));
-            return true;
-        } else if (id == R.id.action_profile) {
-            startActivity(new Intent(MainActivity.this, ProfileActivity.class));
-            return true;
-        } else if (id == R.id.action_logout) {
-            // Sign out from Firebase and redirect
-            handleLogout();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-//    private void handleLogout() {
-//        mAuth.signOut(); // Sign out the user from Firebase
-//        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//        startActivity(intent);
-//        finish(); // Close MainActivity
-//    }
-    private void handleLogout() {
-        FirebaseAuth.getInstance().signOut();
-
-        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        prefs.edit().clear().apply();  // Clear saved user data
-
-        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        finish();
-    }
-
 }
-
