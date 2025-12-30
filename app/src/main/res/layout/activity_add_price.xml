@@ -1,94 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="24dp"
-    android:background="#F5F9F6">
+    android:background="#F5F9F6" >
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+
+    android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Submit New Price"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="#2E3333"
-        android:layout_marginBottom="24dp"/>
+        android:orientation="vertical"
+        android:padding="24dp">
 
-    <!-- NEW: Select Category Dropdown -->
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:hint="Select Category"
-        app:boxStrokeColor="#66BB6A"
-        app:boxStrokeWidthFocused="2dp"
-        app:hintTextColor="#66BB6A"
-        app:startIconDrawable="@android:drawable/ic_menu_sort_by_size"
-        app:startIconTint="#66BB6A">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="Submit Daily Price"
+            android:textColor="#2E3333"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-        <AutoCompleteTextView
-            android:id="@+id/autoCompleteCategory"
+        <!-- 1. Select Market -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="none"
-            android:textColor="#2E3333"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginBottom="16dp"
+            android:hint="Select Market"
+            android:textColorHint="#000"
+            app:boxStrokeColor="#66BB6A"
+            app:hintTextColor="#66BB6A"
+            app:startIconDrawable="@drawable/ic_baseline_store_24"
+            app:startIconTint="#66BB6A">
 
-    <!-- Select Product Dropdown -->
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:hint="Select Product"
-        app:boxStrokeColor="#66BB6A"
-        app:boxStrokeWidthFocused="2dp"
-        app:hintTextColor="#66BB6A"
-        app:startIconDrawable="@android:drawable/ic_menu_search"
-        app:startIconTint="#66BB6A">
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteMarket"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <AutoCompleteTextView
-            android:id="@+id/autoCompleteProduct"
+        <!-- 2. Select Category -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="none"
-            android:textColor="#2E3333"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginBottom="16dp"
+            android:hint="Select Category"
+            android:textColorHint="#000"
+            app:boxStrokeColor="#66BB6A"
+            app:hintTextColor="#66BB6A"
+            app:startIconDrawable="@android:drawable/ic_menu_sort_by_size"
+            app:startIconTint="#66BB6A">
 
-    <!-- Price Input -->
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:hint="Price"
-        app:boxStrokeColor="#66BB6A"
-        app:boxStrokeWidthFocused="2dp"
-        app:hintTextColor="#66BB6A"
-        app:startIconDrawable="@android:drawable/ic_menu_my_calendar"
-        app:startIconTint="#66BB6A">
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etPrice"
+        <!-- 3. Select Product (Filtered by Category) - CORRECTED -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:textColor="#2E3333"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginBottom="16dp"
+            android:hint="Select Product"
+            android:textColorHint="#000"
+            app:boxStrokeColor="#66BB6A"
+            app:hintTextColor="#66BB6A"
+            app:startIconDrawable="@android:drawable/ic_menu_search"
+            app:startIconTint="#66BB6A">
 
-    <!-- Submit Button -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnSubmit"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:text="Submit Price"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:textAllCaps="false"
-        app:backgroundTint="#66BB6A"
-        app:cornerRadius="12dp"/>
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteProduct"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-</LinearLayout>
+        <!-- 4. Price -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="Price (ETB)"
+            android:textColorHint="#000"
+            app:boxStrokeColor="#66BB6A"
+            app:hintTextColor="#66BB6A"
+            app:startIconDrawable="@android:drawable/ic_menu_my_calendar"
+            app:startIconTint="#66BB6A">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <!-- 5. Quality -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:hint="Quality"
+                android:textColorHint="#000"
+                app:boxStrokeColor="#66BB6A"
+                app:hintTextColor="#66BB6A"
+                app:startIconDrawable="@drawable/ic_baseline_star_24"
+                app:startIconTint="#66BB6A">
+
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteQuality"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- 6. Stock Status -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Stock"
+                android:textColorHint="#000"
+                app:boxStrokeColor="#66BB6A"
+                app:hintTextColor="#66BB6A"
+                app:startIconDrawable="@drawable/ic_baseline_inventory_24"
+                app:startIconTint="#66BB6A">
+
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteStock"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="24dp"
+            android:text="Submit Price"
+            android:textStyle="bold"
+            app:backgroundTint="#66BB6A"
+            app:cornerRadius="12dp" />
+
+    </LinearLayout>
+</ScrollView>
