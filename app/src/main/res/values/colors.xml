@@ -1,67 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary_text">#000000</color>
-    <color name="secondary_text">#757575</color>
-    <color name="primary">#1565C0</color>
-    <color name="primary_variant">#0D47A1</color>
-    <color name="primary_dark">#1565C0</color>
+    <!-- Primary colors (Green theme for market/fresh) -->
+    <color name="primary">#4CAF50</color> <!-- Market Green -->
+    <color name="primary_variant">#2E7D32</color> <!-- Darker Green -->
+    <color name="primary_dark">#2E7D32</color>
     <color name="on_primary">#FFFFFF</color>
     <color name="textOnPrimary">#FFFFFF</color>
-    <color name="textOnPrimarySoft">#DCEEFF</color>
-    <color name="onGlassPrimary">#0D47A1</color>
+    <color name="textOnPrimarySoft">#E8F5E9</color>
+    <color name="onGlassPrimary">#2E7D32</color>
 
-    <color name="secondary">#FF6F61</color>
-    <color name="secondary_variant">#E64A19</color>
-    <color name="on_secondary">#FFFFFF</color>
+    <!-- Secondary colors (Orange for fruits/prices) -->
+    <color name="secondary">#FF9800</color> <!-- Market Orange -->
+    <color name="secondary_variant">#F57C00</color>
+    <color name="on_secondary">#000000</color>
 
-    <color name="background">#121212</color>
-    <color name="on_background">#FFFFFF</color>
-    <color name="surface">#1F1F1F</color>
-    <color name="on_surface">#FFFFFF</color>
-    <color name="surface_variant">#333333</color>
-    <color name="on_surface_variant">#CCCCCC</color>
-    <color name="cardBackground">#1F1F1F</color>
-    <color name="cardSurface">#1F1F1F</color>
-    <color name="inputBackground">#2C2C2C</color>
-    <color name="loginBackground">#121212</color>
-    <color name="skyBackground">#1565C0</color>
-    <color name="surface_dark">#2C2C2C</color>
-    <color name="text_primary">#FFFFFF</color>
-    <color name="text_secondary">#AAAAAA</color>
-    <color name="hint_text">#9E9E9E</color>
-    <color name="inputText">#FFFFFF</color>
+    <!-- Backgrounds -->
+    <color name="background">#F8FDF8</color> <!-- Very light green -->
+    <color name="on_background">#1A3C27</color> <!-- Dark green text -->
+    <color name="surface">#FFFFFF</color> <!-- White cards -->
+    <color name="on_surface">#1A3C27</color>
+    <color name="surface_variant">#E8F5E9</color> <!-- Light green surface -->
+    <color name="on_surface_variant">#5A6B5A</color>
+    <color name="cardBackground">#FFFFFF</color>
+    <color name="cardSurface">#FFFFFF</color>
+    <color name="inputBackground">#FFFFFF</color>
+    <color name="loginBackground">#F8FDF8</color>
+    <color name="skyBackground">#4CAF50</color> <!-- Green instead of blue -->
+    <color name="surface_dark">#2E7D32</color>
+    <color name="text_primary">#1A3C27</color> <!-- Dark greenish text -->
+    <color name="text_secondary">#5A6B5A</color> <!-- Muted green -->
+    <color name="hint_text">#90A4AE</color>
+    <color name="inputText">#1A3C27</color>
     <color name="textPrimaryOnDark">#FFFFFF</color>
-    <color name="textSecondaryOnDark">#CCCCCC</color>
+    <color name="textSecondaryOnDark">#E8F5E9</color>
 
-    <color name="nav_selected">#1565C0</color>
-    <color name="nav_unselected">#AAAAAA</color>
-    <color name="textPrimary">#212121</color>
-    <color name="textLight">#B0BEC5</color>
-    <color name="text_light">#F0F0F0</color>
-    <color name="accentText">#1565C0</color>
-    <color name="accentBlue">#1565C0</color>
-    <color name="loginAccent">#2C8E4E</color>
+    <!-- Navigation -->
+    <color name="nav_selected">#4CAF50</color> <!-- Green -->
+    <color name="nav_unselected">#90A4AE</color>
+    <color name="textPrimary">#1A3C27</color>
+    <color name="textLight">#5A6B5A</color>
+    <color name="text_light">#5A6B5A</color>
+    <color name="accentText">#4CAF50</color>
+    <color name="accentBlue">#4CAF50</color> <!-- Changed to green -->
+    <color name="loginAccent">#4CAF50</color>
 
-    <color name="error">#D32F2F</color>
-    <color name="success">#388E3C</color>
-    <color name="warning">#FBC02D</color>
+    <!-- Status colors -->
+    <color name="error">#F44336</color> <!-- Red for error -->
+    <color name="success">#4CAF50</color> <!-- Green for success -->
+    <color name="warning">#FF9800</color> <!-- Orange for warning -->
 
-    <color name="primaryButtonStart">#2C8E4E</color>
-    <color name="primaryButtonEnd">#226A3A</color>
+    <!-- Button colors -->
+    <color name="primaryButtonStart">#4CAF50</color>
+    <color name="primaryButtonEnd">#2E7D32</color>
     <color name="buttonRipple">#33FFFFFF</color>
-    <color name="buttonDisabled">#A5D6A7</color>
+    <color name="buttonDisabled">#C8E6C9</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="green">#4CAF50</color>
-    <color name="textSecondary">#666666</color>
-    <color name="surface_card">#2C2C2C</color>
-    <color name="category_icon_tint">#00AEEF</color>
-    <color name="text_primary_light">#F0F0F0</color>
-    <color name="success_dark">#228B22</color>
-    <color name="text_secondary_light">#DDDDDD</color>
-    <color name="divider_color">#555555</color>
+    <color name="textSecondary">#5A6B5A</color>
+    <color name="surface_card">#E8F5E9</color>
+    <color name="category_icon_tint">#4CAF50</color> <!-- Green for market -->
+    <color name="text_primary_light">#FFFFFF</color>
+    <color name="success_dark">#2E7D32</color>
+    <color name="text_secondary_light">#E8F5E9</color>
+    <color name="divider_color">#E0E0E0</color>
 
-    <!-- Teal color palette -->
+    <!-- Teal color palette (keeping but adjusting) -->
     <color name="teal_50">#E0F2F1</color>
     <color name="teal_100">#B2DFDB</color>
     <color name="teal_200">#80CBC4</color>
@@ -73,12 +77,10 @@
     <color name="teal_800">#00695C</color>
     <color name="teal_900">#004D40</color>
 
-    <!-- For bottom navigation color state list -->
-    <color name="bottom_nav_active">#00796B</color> <!-- teal_700 -->
-    <color name="bottom_nav_inactive">#757575</color> <!-- grey_600 -->
+    <!-- Bottom navigation -->
+    <color name="bottom_nav_active">#4CAF50</color> <!-- Green -->
+    <color name="bottom_nav_inactive">#90A4AE</color> <!-- Gray -->
 
-
-
-    <!-- Text colors -->
-    <color name="text_hint">#BDBDBD</color>
+    <!-- Hint text -->
+    <color name="text_hint">#90A4AE</color>
 </resources>
