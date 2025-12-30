@@ -1,20 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
+    <!-- Optional GPS Feature -->
     <uses-feature android:name="android.hardware.location.gps" android:required="false"/>
 
     <application
         android:allowBackup="true"
-        android:supportsRtl="true"
-        android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:theme="@style/Theme.LocalMarketTracker">
+        android:supportsRtl="true"
+        android:theme="@style/Theme.LocalMarketTracker"
+        tools:ignore="GoogleAppIndexingWarning"
+        android:name=".MyApplication">
 
+        <!-- ===================================================================== -->
+        <!--                          LAUNCHER ACTIVITY                            -->
+        <!-- ===================================================================== -->
+        <activity
+            android:name=".activities.LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- ===================================================================== -->
+        <!--                         ALL OTHER ACTIVITIES                          -->
+        <!-- ===================================================================== -->
+
+        <!-- Main User/Customer Dashboard -->
+        <activity
+            android:name=".activities.MainActivity"
+            android:exported="false" />
+
+        <!-- Registration & Auth -->
+        <activity
+            android:name=".activities.SignupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ForgotPasswordActivity"
+            android:exported="false" />
+
+        <!-- Admin Role Activities -->
+        <activity
+            android:name=".activities.AdminDashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.AdminMarketsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.AdminProductsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ManageUsersActivity"
+            android:exported="false" />
+        <activity android:name=".activities.AddMarketActivity" android:exported="false" />
+        <activity android:name=".activities.AddProductActivity" android:exported="false" />
+
+        <!-- Vendor Role Activities -->
         <activity
             android:name=".activities.VendorDashboardActivity"
             android:exported="false" />
@@ -22,49 +73,42 @@
             android:name=".activities.VendorProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-<!--        <activity android:name=".activities.LoginActivity" />-->
-<!--        <activity android:name=".activities.ProfileActivity" />-->
-<!--        <activity android:name=".activities.MapActivity" />-->
-
-        <activity
-            android:name=".activities.ManageUsersActivity"
+            android:name=".activities.AddPriceActivity"
             android:exported="false" />
 
+        <!-- General/Shared Activities -->
+        <activity
+            android:name=".activities.ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.EditProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.MapActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ItemListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ItemDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.MarketDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.AnalyticsActivity"
+            android:exported="false" />
+
+        <!-- Splash screen (if you want to use it, remove the launcher from LoginActivity and place it here) -->
+        <activity
+            android:name=".activities.SplashActivity"
+            android:exported="false"
+            android:theme="@style/Theme.LocalMarketTracker" />
+
+        <!-- Google Maps API Key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
-
-        <activity
-            android:name="com.example.localmarkettracker.activities.SplashActivity"
-            android:exported="true"
-            android:theme="@style/Theme.LocalMarketTracker">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-        <activity android:name="com.example.localmarkettracker.activities.LoginActivity" android:exported="false" />
-        <activity android:name="com.example.localmarkettracker.activities.SignupActivity" android:exported="false" />
-        <activity android:name="com.example.localmarkettracker.activities.ForgotPasswordActivity" android:exported="false" />
-        <activity android:name="com.example.localmarkettracker.activities.AddPriceActivity" android:exported="false" />
-        <activity android:name="com.example.localmarkettracker.activities.MarketDetailActivity" android:exported="false" />
-        <activity android:name="com.example.localmarkettracker.activities.AdminDashboardActivity" android:exported="false" />
-        <activity android:name="com.example.localmarkettracker.activities.MapActivity" android:exported="false" />
-        <activity android:name="com.example.localmarkettracker.activities.ProfileActivity" android:exported="false" />
-        <activity android:name="com.example.localmarkettracker.activities.ItemListActivity" android:exported="false" />
-        <activity android:name="com.example.localmarkettracker.activities.ItemDetailsActivity" android:exported="false" />
-        <activity android:name="com.example.localmarkettracker.activities.AnalyticsActivity" android:exported="false" />
-
-        <activity android:name="com.example.localmarkettracker.activities.EditProfileActivity" android:exported="false" />
+            android:value="AIzaSyAR4tUheYISr6FVfqKC2t9qKgvCnOACz2U" />
 
     </application>
 
