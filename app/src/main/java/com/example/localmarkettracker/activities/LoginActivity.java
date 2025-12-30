@@ -172,7 +172,7 @@ public class LoginActivity extends AppCompatActivity {
                 intent = new Intent(LoginActivity.this, VendorDashboardActivity.class);
                 break;
             case "customer":
-                intent = new Intent(LoginActivity.this, CustomerActivity.class );
+                intent = new Intent(LoginActivity.this, MainActivity.class );
                 break;
         }
 
