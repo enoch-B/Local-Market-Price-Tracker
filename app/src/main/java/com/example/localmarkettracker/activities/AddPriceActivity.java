@@ -4,26 +4,36 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.localmarkettracker.R;
-import com.example.localmarkettracker.models.PriceSubmission; // Ensure this model has a 'category' field now
-import com.google.firebase.Timestamp;
+import com.example.localmarkettracker.models.Market;
+import com.example.localmarkettracker.models.PriceSubmission;
+import com.example.localmarkettracker.models.Product;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddPriceActivity extends AppCompatActivity {
 
-    private AutoCompleteTextView autoCompleteCategory, autoCompleteProduct; // Added category
-    private EditText etPrice;
+    private AutoCompleteTextView autoMarket, autoCategory, autoProduct, autoQuality, autoStock;
+    private TextInputEditText etPrice;
     private Button btnSubmit;
     private FirebaseFirestore db;
-    private String currentShopName = "Unknown Shop";
+
+    // Lists to hold Firestore objects
+    private List<Market> marketList = new ArrayList<>();
+    private List<Product> productList = new ArrayList<>();
+
+    // Selected Data
+    private Market selectedMarket;
+    private Product selectedProduct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,53 +43,104 @@ public class AddPriceActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         // Bind Views
-        autoCompleteCategory = findViewById(R.id.autoCompleteCategory);
-        autoCompleteProduct = findViewById(R.id.autoCompleteProduct);
+        autoMarket = findViewById(R.id.autoCompleteMarket);
+        autoCategory = findViewById(R.id.autoCompleteCategory);
+        autoProduct = findViewById(R.id.autoCompleteProduct);
+        autoQuality = findViewById(R.id.autoCompleteQuality);
+        autoStock = findViewById(R.id.autoCompleteStock);
         etPrice = findViewById(R.id.etPrice);
         btnSubmit = findViewById(R.id.btnSubmit);
 
-        // 1. Setup Categories
-        String[] categories = {
-                getString(R.string.vegetables),
-                getString(R.string.fruits),
-                getString(R.string.meat),
-                getString(R.string.dairy),
-                getString(R.string.store_items),
-                getString(R.string.building_materials),
-                getString(R.string.grains_cereals),
-                getString(R.string.spices_herbs)
-        };
-
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, categories);
-        autoCompleteCategory.setAdapter(categoryAdapter);
-
-        // 2. Setup Sample Products (Ideally fetch these based on selected category later)
-        String[] products = {"Tomatoes", "Onions", "Potatoes", "Carrots", "Spinach", "Teff", "Coffee", "Cement", "Milk"};
-        ArrayAdapter<String> productAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, products);
-        autoCompleteProduct.setAdapter(productAdapter);
-
-        fetchUserProfile();
+        setupStaticDropdowns();
+        loadMarkets();
 
         btnSubmit.setOnClickListener(v -> submitPrice());
     }
 
-    private void fetchUserProfile() {
-        String uid = FirebaseAuth.getInstance().getUid();
-        if(uid != null) {
-            db.collection("users").document(uid).get().addOnSuccessListener(doc -> {
-                if(doc.exists() && doc.getString("shopName") != null) {
-                    currentShopName = doc.getString("shopName");
-                }
-            });
+    private void setupStaticDropdowns() {
+        // Categories
+        String[] categories = {
+                "Vegetables", "Fruits", "Meat", "Dairy", "Grains"
+        };
+        ArrayAdapter<String> catAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, categories);
+        autoCategory.setAdapter(catAdapter);
+
+        // When category changes, load products for that category
+        autoCategory.setOnItemClickListener((parent, view, position, id) -> {
+            String selectedCat = catAdapter.getItem(position);
+            loadProductsByCategory(selectedCat);
+            autoProduct.setText("", false); // Clear previous product selection
+            selectedProduct = null;
+        });
+
+        // Set a default category and load products for it on start
+        if (categories.length > 0) {
+            String defaultCategory = categories[0];
+            autoCategory.setText(defaultCategory, false); // Set default text without triggering listener
+            loadProductsByCategory(defaultCategory); // **FIX**: Initial load of products
         }
+
+        // Quality
+        String[] qualities = {"A", "B", "C"};
+        autoQuality.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, qualities));
+
+        // Stock
+        String[] stocks = {"in-stock", "low-stock", "out-of-stock"};
+        autoStock.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, stocks));
+    }
+
+    private void loadMarkets() {
+        db.collection("markets").get().addOnSuccessListener(queryDocumentSnapshots -> {
+            marketList.clear();
+            List<String> marketNames = new ArrayList<>();
+            for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                Market market = doc.toObject(Market.class);
+                market.setMarketId(doc.getId()); // Ensure ID is set
+                marketList.add(market);
+                marketNames.add(market.getName());
+            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, marketNames);
+            autoMarket.setAdapter(adapter);
+
+            autoMarket.setOnItemClickListener((parent, view, position, id) -> selectedMarket = marketList.get(position));
+        });
+    }
+
+    private void loadProductsByCategory(String category) {
+        db.collection("products")
+                .whereEqualTo("category", category)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    productList.clear();
+                    List<String> productDisplayNames = new ArrayList<>();
+                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                        Product product = doc.toObject(Product.class);
+                        product.setProductId(doc.getId());
+                        productList.add(product);
+                        // Use the toString() method from the Product model
+                        productDisplayNames.add(product.toString());
+                    }
+
+                    // **FIX**: Always create a new adapter to refresh the dropdown contents
+                    ArrayAdapter<String> productAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, productDisplayNames);
+                    autoProduct.setAdapter(productAdapter);
+
+                    // Re-set the listener here to capture selection from the new adapter
+                    autoProduct.setOnItemClickListener((parent, view, position, id) -> {
+                        if (position >= 0 && position < productList.size()) {
+                            selectedProduct = productList.get(position);
+                        }
+                    });
+                });
     }
 
     private void submitPrice() {
-        String category = autoCompleteCategory.getText().toString();
-        String product = autoCompleteProduct.getText().toString();
         String priceStr = etPrice.getText().toString();
+        String quality = autoQuality.getText().toString();
+        String stock = autoStock.getText().toString();
+        String category = autoCategory.getText().toString();
 
-        if(category.isEmpty() || product.isEmpty() || priceStr.isEmpty()) {
+        if (selectedMarket == null || selectedProduct == null || priceStr.isEmpty() || quality.isEmpty() || stock.isEmpty()) {
             Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -87,19 +148,23 @@ public class AddPriceActivity extends AppCompatActivity {
         double price = Double.parseDouble(priceStr);
         String uid = FirebaseAuth.getInstance().getUid();
 
-        // Create submission data map (or update your PriceSubmission model to include category)
-        Map<String, Object> submission = new HashMap<>();
-        submission.put("vendorId", uid);
-        submission.put("category", category); // NEW FIELD
-        submission.put("itemName", product);
-        submission.put("price", price);
-        submission.put("status", "Pending");
-        submission.put("timestamp", new Timestamp(new Date()));
-        submission.put("shopName", currentShopName);
+        // New Model Usage
+        PriceSubmission submission = new PriceSubmission(
+                uid,
+                selectedMarket.getMarketId(),
+                selectedMarket.getName(),
+                selectedProduct.getProductId(),
+                selectedProduct.getName(),
+                category,
+                price,
+                quality,
+                stock,
+                selectedProduct.getImageUrl()
+        );
 
-        db.collection("price_submissions").add(submission)
+        db.collection("prices").add(submission)
                 .addOnSuccessListener(doc -> {
-                    Toast.makeText(this, "Price submitted for approval!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Price Submitted!", Toast.LENGTH_SHORT).show();
                     finish();
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
